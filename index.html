@@ -4,134 +4,206 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎵 Ear Training Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-  :root {
-    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --radius-card: 24px;
-    --radius-btn: 16px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-gradient);
-    color: var(--text-main);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-
-  .container {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    padding: 48px;
-    border-radius: var(--radius-card);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    max-width: 480px;
-    width: 100%;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .header { text-align: center; }
+:root {
+  --sunflower: #FFCC00;
+  --hot-pink: #FF0066;
+  --electric-blue: #4361EE;
+  --mint-green: #00F5D4;
+  --punk-black: #1A1A1D;
+  --off-white: #FDFDFF;
   
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    background: linear-gradient(to right, #a5b4fc, #c4b5fd);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
-  }
+  --border-thick: 4px solid var(--punk-black);
+  --shadow-hard: 8px 8px 0px var(--punk-black);
+  --shadow-hover: 2px 2px 0px var(--punk-black);
+  --radius-cute: 16px;
+}
 
-  p.subtitle {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-  }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: 'Outfit', system-ui, sans-serif;
+}
 
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-  }
+body {
+  background-color: var(--off-white);
+  /* Checkered punk background */
+  background-image: 
+    linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0),
+    linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  color: var(--punk-black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
 
-  a { text-decoration: none; width: 100%; }
+.container {
+  background: var(--sunflower);
+  border: var(--border-thick);
+  border-radius: 24px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 12px 12px 0px var(--punk-black);
+  position: relative;
+  overflow: hidden;
+}
 
-  .button {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--card-border);
-    color: var(--text-main);
-    padding: 20px 24px;
-    border-radius: var(--radius-btn);
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+/* Cute punk sticker effect */
+.container::before {
+  content: '🌻 GET LOUD ⚡️';
+  position: absolute;
+  top: 20px;
+  right: -35px;
+  background: var(--mint-green);
+  color: var(--punk-black);
+  padding: 6px 40px;
+  transform: rotate(15deg);
+  font-weight: 900;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  border: 2px solid var(--punk-black);
+  box-shadow: 3px 3px 0 var(--punk-black);
+  z-index: 10;
+}
 
-  .button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.3);
-  }
+.header-group {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
 
-  .button::after {
-    content: '→';
-    opacity: 0.5;
-    transition: var(--transition);
-  }
+h1 {
+  font-size: 3.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  line-height: 1;
+  text-shadow: 4px 4px 0px var(--off-white);
+  margin-bottom: 0;
+}
 
-  .button:hover::after {
-    opacity: 1;
-    transform: translateX(4px);
-  }
+.subtitle {
+  font-weight: 800;
+  font-size: 1.1rem;
+  background: var(--off-white);
+  padding: 8px 16px;
+  border: 2px solid var(--punk-black);
+  border-radius: 8px;
+  display: inline-block;
+  box-shadow: 3px 3px 0px var(--punk-black);
+}
 
-  @media(max-width: 480px) {
-    .container { padding: 32px 24px; }
-    h1 { font-size: 2rem; }
-    .button { font-size: 1rem; padding: 16px 20px; }
-  }
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+}
+
+.button {
+  border: var(--border-thick);
+  border-radius: var(--radius-cute);
+  padding: 20px 24px;
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button:active {
+  transform: translate(6px, 6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-triad {
+  background: var(--electric-blue);
+  color: var(--off-white);
+}
+
+.btn-interval {
+  background: var(--hot-pink);
+  color: var(--off-white);
+}
+
+.arrow {
+  font-size: 1.8rem;
+  background: var(--punk-black);
+  color: var(--sunflower);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid var(--punk-black);
+}
+
+.btn-interval .arrow {
+  color: var(--hot-pink);
+  background: var(--off-white);
+}
+
+.btn-triad .arrow {
+  color: var(--electric-blue);
+  background: var(--off-white);
+}
+
+@media(max-width:480px){
+  .container { padding: 32px 20px; border-width: 3px; box-shadow: 8px 8px 0px var(--punk-black); }
+  h1 { font-size: 2.5rem; }
+  .button { font-size: 1.1rem; padding: 16px 20px; }
+  .arrow { width: 32px; height: 32px; font-size: 1.4rem; }
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="header">
-    <h1>Ear Training Hub</h1>
-    <p class="subtitle">Select an exercise to begin</p>
+  
+  <div class="header-group">
+    <h1>Ear<br>Training<br>Hub</h1>
+    <div class="subtitle">Pick your poison ☠️</div>
   </div>
 
   <div class="buttons">
-    <a href="Triad_Tone.html"><div class="button">Triad Tone Recognition</div></a>
-    <a href="Interval_Singing.html"><div class="button">Interval Singing</div></a>
+    <a href="Triad_Tone.html">
+      <div class="button btn-triad">
+        <span>🎸 Triad Tones</span>
+        <span class="arrow">➔</span>
+      </div>
+    </a>
+    
+    <a href="Interval_Singing.html">
+      <div class="button btn-interval">
+        <span>🎤 Intervals</span>
+        <span class="arrow">➔</span>
+      </div>
+    </a>
   </div>
+
 </div>
 
 </body>
