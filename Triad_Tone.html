@@ -4,123 +4,388 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>🎵 Triad Tone Recognition</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-  :root {
-    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --secondary: rgba(255, 255, 255, 0.1);
-    --secondary-hover: rgba(255, 255, 255, 0.15);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --radius-card: 24px;
-    --radius-btn: 12px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-gradient);
-    color: var(--text-main);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-
-  .card {
-    width: 100%;
-    max-width: 600px;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-card);
-    padding: 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .back-link {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    align-self: flex-start;
-    transition: var(--transition);
-    margin-bottom: -16px;
-  }
-
-  .back-link:hover { color: var(--text-main); transform: translateX(-4px); }
-
-  .header { text-align: center; }
+:root {
+  --sunflower: #FFCC00;
+  --hot-pink: #FF0066;
+  --electric-blue: #4361EE;
+  --mint-green: #00F5D4;
+  --punk-black: #1A1A1D;
+  --off-white: #FDFDFF;
   
-  .header h1 { margin: 0; font-size: 1.8rem; font-weight: 700; }
-  
-  .header p {
-    margin: 8px 0 0;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    line-height: 1.5;
+  --border-thick: 4px solid var(--punk-black);
+  --shadow-hard: 6px 6px 0px var(--punk-black);
+  --shadow-hover: 2px 2px 0px var(--punk-black);
+  --radius-cute: 16px;
+  --radius-pill: 50px;
+}
+
+* { 
+  box-sizing: border-box; 
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--off-white);
+  /* Checkered punk background */
+  background-image: 
+    linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0),
+    linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: var(--punk-black);
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  background: var(--sunflower);
+  border: var(--border-thick);
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 12px 12px 0px var(--punk-black);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+/* Cute punk sticker effect */
+.card::before {
+  content: '🎸 CHORDS ⚡️';
+  position: absolute;
+  top: 16px;
+  right: -30px;
+  background: var(--hot-pink);
+  color: var(--off-white);
+  padding: 4px 40px;
+  transform: rotate(15deg);
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: 2px solid var(--punk-black);
+  box-shadow: 2px 2px 0 var(--punk-black);
+  z-index: 10;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  text-shadow: 3px 3px 0px var(--off-white);
+}
+
+.subtitle {
+  margin: 0;
+  font-weight: 800;
+  font-size: 1rem;
+  background: var(--off-white);
+  padding: 8px 12px;
+  border: 2px solid var(--punk-black);
+  border-radius: 8px;
+  display: inline-block;
+  align-self: flex-start;
+  box-shadow: 2px 2px 0px var(--punk-black);
+}
+
+/* Stats Grid */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.stat-badge {
+  background: var(--off-white);
+  border: 2px solid var(--punk-black);
+  border-radius: var(--radius-cute);
+  padding: 10px;
+  text-align: center;
+  box-shadow: 3px 3px 0px var(--punk-black);
+}
+
+.stat-badge strong {
+  font-size: 1.2rem;
+  display: block;
+  color: var(--hot-pink);
+}
+
+.progress {
+  height: 20px;
+  background: var(--off-white);
+  border: 2px solid var(--punk-black);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--mint-green);
+  border-right: 2px solid var(--punk-black);
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Buttons */
+button.tactile {
+  border: var(--border-thick);
+  border-radius: var(--radius-cute);
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button.tactile:active {
+  transform: translate(4px, 4px);
+  box-shadow: var(--shadow-hover);
+}
+
+button.tactile:disabled { 
+  opacity: 0.5; 
+  cursor: not-allowed; 
+  transform: none;
+  box-shadow: var(--shadow-hard);
+}
+
+/* Controls Grid */
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.primary { background: var(--off-white); color: var(--punk-black); }
+.secondary { background: var(--electric-blue); color: var(--off-white); }
+.warning { background: var(--hot-pink); color: var(--off-white); }
+.success { background: var(--mint-green); color: var(--punk-black); }
+
+/* Answer Keys */
+.answers {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.tone-btn {
+  flex: 1;
+  aspect-ratio: 1; /* Makes them perfect squares */
+  font-size: 2.5rem !important;
+  background: var(--punk-black);
+  color: var(--off-white);
+  border-radius: 20px !important;
+}
+
+.tone-btn:hover {
+  background: var(--off-white);
+  color: var(--punk-black);
+}
+
+/* Feedback Animation */
+.feedback {
+  text-align: center;
+  font-weight: 900;
+  min-height: 30px;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+}
+
+.feedback.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
+.feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
+
+@media(max-width:480px){
+  .card { padding: 24px 16px; border-width: 3px; box-shadow: 8px 8px 0px var(--punk-black); }
+  h1 { font-size: 1.8rem; }
+  .tone-btn { font-size: 2rem !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <h1>Triad<br>Tones</h1>
+    <p class="subtitle">Hear a chord, then spot the tone.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat-badge">Score <strong id="score-display"><span id="score">0</span>/<span id="total">0</span></strong></div>
+    <div class="stat-badge">Success <strong id="percentage-display"><span id="percentage">0</span>%</strong></div>
+  </div>
+
+  <div class="progress">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+
+  <div class="controls">
+    <button class="tactile primary" onclick="startExercise()">Start 🏁</button>
+    <button class="tactile secondary" onclick="replay()">Replay 🔁</button>
+    <button class="tactile warning" onclick="playArpeggio()">Arpeggio 🎸</button>
+    <button class="tactile success" onclick="nextExercise()">Next ⏭️</button>
+  </div>
+
+  <div class="answers">
+    <button class="tactile tone-btn" onclick="checkAnswer(1)">1</button>
+    <button class="tactile tone-btn" onclick="checkAnswer(3)">3</button>
+    <button class="tactile tone-btn" onclick="checkAnswer(5)">5</button>
+  </div>
+
+  <div id="result" class="feedback"></div>
+</div>
+
+<script>
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const ctx = new AudioContext();
+
+let correctAnswer = null;
+let lastExercise = null;
+let score = 0;
+let total = 0;
+
+function midiToFreq(midi) {
+  return 440 * Math.pow(2, (midi - 69) / 12);
+}
+
+function playPianoTone(freq, duration = 1.5, delay = 0) {
+  const now = ctx.currentTime + delay;
+  const harmonics = [1,2,3,4];
+  const gains = [1,0.5,0.3,0.15];
+
+  harmonics.forEach((h,i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq * h;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.4 * gains[i], now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    osc.start(now);
+    osc.stop(now + duration);
+  });
+}
+
+function playChord(root, intervals){
+  intervals.forEach(i=>{
+    playPianoTone(midiToFreq(root+i), 2);
+  });
+}
+
+function playArpeggio(){
+  if(!lastExercise) return;
+  const {root, intervals} = lastExercise;
+  intervals.forEach((i,idx)=>{
+    playPianoTone(midiToFreq(root+i), 1.2, idx*0.6);
+  });
+}
+
+function resetFeedback() {
+  const resultEl = document.getElementById("result");
+  resultEl.className = "feedback";
+  resultEl.textContent = "";
+}
+
+function generateExercise(){
+  resetFeedback();
+  const root = Math.floor(Math.random()*12)+60;
+  const type = Math.random()>0.5 ? "major":"minor";
+  const intervals = type==="major" ? [0,4,7] : [0,3,7];
+  const options=[1,3,5];
+  const chosen=options[Math.floor(Math.random()*3)];
+  const index = chosen===1?0:chosen===3?1:2;
+  const octaveShift = Math.random()>0.5?12:-12;
+
+  correctAnswer=chosen;
+  lastExercise={root, intervals, index, octaveShift};
+
+  playChord(root, intervals);
+  setTimeout(()=>{
+    playPianoTone(
+      midiToFreq(root+intervals[index]+octaveShift),
+      1.5
+    );
+  },2000);
+}
+
+function startExercise(){
+  generateExercise();
+}
+
+function nextExercise(){
+  generateExercise();
+}
+
+function replay(){
+  if(!lastExercise) return;
+  resetFeedback();
+  const {root, intervals, index, octaveShift}=lastExercise;
+  playChord(root, intervals);
+  setTimeout(()=>{
+    playPianoTone(
+      midiToFreq(root+intervals[index]+octaveShift),
+      1.5
+    );
+  },2000);
+}
+
+function checkAnswer(answer){
+  if(!correctAnswer) return;
+
+  const resultEl = document.getElementById("result");
+  total++;
+
+  if(answer===correctAnswer){
+    score++;
+    resultEl.textContent="🔥 PERFECT!";
+    resultEl.className="feedback show correct";
+  } else {
+    resultEl.textContent="💀 OOF, IT WAS " + correctAnswer;
+    resultEl.className="feedback show wrong";
   }
 
-  .controls, .answers {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-  }
+  correctAnswer=null;
 
-  button {
-    border: none;
-    border-radius: var(--radius-btn);
-    padding: 14px 20px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: var(--transition);
-    color: white;
-  }
+  document.getElementById("score").innerText=score;
+  document.getElementById("total").innerText=total;
 
-  button:active { transform: scale(0.97); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  const percent = total>0 ? Math.round((score/total)*100) : 0;
+  document.getElementById("percentage").innerText=percent;
+  document.getElementById("progressBar").style.width=percent+"%";
+}
+</script>
 
-  .primary { background: var(--primary); }
-  .primary:hover { background: var(--primary-hover); box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
-
-  .secondary { background: var(--secondary); color: var(--text-main); border: 1px solid var(--card-border); }
-  .secondary:hover { background: var(--secondary-hover); }
-
-  .warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
-  .warning:hover { background: var(--warning); color: #111; }
-
-  .success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
-  .success:hover { background: var(--success); color: white; }
-
-  .tone-btn {
-    width: 80px;
-    height: 80px;
-    font-size: 1.5rem;
-    border-radius:
+</body>
+</html>
