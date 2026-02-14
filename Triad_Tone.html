@@ -16,7 +16,8 @@
   
   --border-thick: 4px solid var(--punk-black);
   --shadow-hard: 6px 6px 0px var(--punk-black);
-  --shadow-hover: 2px 2px 0px var(--punk-black);
+  --shadow-hover: 8px 8px 0px var(--punk-black);
+  --shadow-active: 2px 2px 0px var(--punk-black);
   --radius-cute: 16px;
   --radius-pill: 50px;
 }
@@ -38,22 +39,47 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: clamp(16px, 4vw, 32px);
   color: var(--punk-black);
+  overflow-x: hidden;
+}
+
+/* Animations */
+@keyframes float-in {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(15deg); }
+  25% { transform: rotate(10deg) scale(1.1); }
+  75% { transform: rotate(20deg) scale(1.1); }
+}
+
+@keyframes stripe-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
 }
 
 .card {
   width: 100%;
-  max-width: 500px;
+  max-width: 540px;
   background: var(--sunflower);
   border: var(--border-thick);
   border-radius: 24px;
-  padding: 32px 24px;
+  padding: clamp(24px, 5vw, 40px);
   box-shadow: 12px 12px 0px var(--punk-black);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 3vw, 24px);
   position: relative;
+  animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .card::before {
@@ -66,11 +92,16 @@ body {
   padding: 4px 40px;
   transform: rotate(15deg);
   font-weight: 900;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
   letter-spacing: 1px;
   border: 2px solid var(--punk-black);
   box-shadow: 2px 2px 0 var(--punk-black);
   z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.card:hover::before {
+  animation: wiggle 0.6s ease-in-out;
 }
 
 /* Nav & Back Button */
@@ -92,7 +123,12 @@ body {
   text-transform: uppercase;
   font-size: 0.85rem;
   box-shadow: 3px 3px 0px var(--punk-black);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-back:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--punk-black);
 }
 
 .btn-back:active {
@@ -108,18 +144,18 @@ body {
 
 h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: clamp(2rem, 6vw, 2.6rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -1px;
-  line-height: 1.1;
+  line-height: 1.05;
   text-shadow: 3px 3px 0px var(--off-white);
 }
 
 .subtitle {
   margin: 0;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   background: var(--off-white);
   padding: 8px 12px;
   border: 2px solid var(--punk-black);
@@ -127,14 +163,19 @@ h1 {
   display: inline-block;
   align-self: flex-start;
   box-shadow: 2px 2px 0px var(--punk-black);
+  transition: transform 0.3s;
+}
+
+.subtitle:hover {
+  transform: rotate(2deg);
 }
 
 /* Stats Grid */
 .stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   font-weight: 800;
 }
 
@@ -142,63 +183,83 @@ h1 {
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-cute);
-  padding: 10px;
+  padding: 12px 10px;
   text-align: center;
   box-shadow: 3px 3px 0px var(--punk-black);
+  transition: transform 0.2s ease;
+}
+
+.stat-badge:hover {
+  transform: scale(1.05) rotate(1deg);
 }
 
 .stat-badge strong {
-  font-size: 1.2rem;
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
   display: block;
   color: var(--hot-pink);
+  margin-top: 4px;
 }
 
 .progress {
-  height: 20px;
+  height: 24px;
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-pill);
   overflow: hidden;
   box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: var(--mint-green);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--mint-green),
+    var(--mint-green) 15px,
+    #00dfc0 15px,
+    #00dfc0 30px
+  );
+  background-size: 42px 100%;
   border-right: 2px solid var(--punk-black);
-  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: stripe-scroll 1.5s linear infinite;
 }
 
 /* Buttons */
 button.tactile {
   border: var(--border-thick);
   border-radius: var(--radius-cute);
-  padding: 14px 16px;
-  font-size: 1rem;
+  padding: clamp(12px, 3vw, 16px);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: var(--shadow-hard);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
 }
 
-button.tactile:active {
-  transform: translate(4px, 4px);
+button.tactile:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-hover);
+  filter: brightness(1.05);
+}
+
+button.tactile:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: var(--shadow-active);
 }
 
 button.tactile:disabled { 
   opacity: 0.5; 
   cursor: not-allowed; 
-  transform: none;
-  box-shadow: var(--shadow-hard);
+  filter: grayscale(0.8);
 }
 
 /* Controls Grid */
 .controls {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 12px;
 }
 
@@ -210,7 +271,7 @@ button.tactile:disabled {
 /* Answer Keys */
 .answers {
   display: flex;
-  gap: 16px;
+  gap: clamp(10px, 3vw, 20px);
   justify-content: center;
   margin-top: 8px;
 }
@@ -218,42 +279,44 @@ button.tactile:disabled {
 .tone-btn {
   flex: 1;
   aspect-ratio: 1;
-  font-size: 2.5rem !important;
+  font-size: clamp(2rem, 8vw, 2.8rem) !important;
   background: var(--punk-black);
   color: var(--off-white);
-  border-radius: 20px !important;
+  border-radius: clamp(12px, 4vw, 20px) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.tone-btn:hover {
+.tone-btn:hover:not(:disabled) {
   background: var(--off-white);
   color: var(--punk-black);
+  transform: translate(-4px, -4px) rotate(-3deg);
+  box-shadow: 10px 10px 0px var(--punk-black);
 }
 
 /* Feedback Animation */
 .feedback {
   text-align: center;
   font-weight: 900;
-  min-height: 30px;
-  font-size: 1.4rem;
+  min-height: 40px;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.2s ease;
 }
 
 .feedback.show {
-  opacity: 1;
-  transform: translateY(0);
+  animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
 .feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
 
-@media(max-width:480px){
-  .card { padding: 24px 16px; border-width: 3px; box-shadow: 8px 8px 0px var(--punk-black); }
-  h1 { font-size: 1.8rem; }
-  .tone-btn { font-size: 2rem !important; }
+@media(max-width:360px){
+  /* Deep fallback for very narrow phones */
+  .answers { flex-direction: column; }
+  .tone-btn { aspect-ratio: auto; padding: 20px; }
 }
 </style>
 </head>
@@ -266,7 +329,7 @@ button.tactile:disabled {
 
   <div class="header">
     <h1>Triad<br>Tones</h1>
-    <p class="subtitle">Hear a chord, then spot the tone.</p>
+    <p class="subtitle">Hear a chord, spot the tone.</p>
   </div>
 
   <div class="stats">
@@ -344,6 +407,7 @@ function playArpeggio(){
 function resetFeedback() {
   const resultEl = document.getElementById("result");
   resultEl.className = "feedback";
+  void resultEl.offsetWidth; // Trigger reflow
   resultEl.textContent = "";
 }
 
