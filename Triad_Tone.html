@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Triad Tone Recognition</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #c7d2fe, #e9d5ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  width: 400px;
+}
+
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.primary { background: #6366f1; color: white; }
+.gray { background: #6b7280; color: white; }
+.green { background: #22c55e; color: white; }
+.yellow { background: #facc15; }
+.purple { background: #a855f7; color: white; width: 60px; height: 60px; font-size: 20px; }
+
+button:hover { opacity: 0.85; }
+
+.stats {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Triad Tone Recognition</h2>
+  <p>You will hear a root position triad followed by one of its tones.<br>
+  Which chord tone was it?</p>
+
+  <div>
+    <button class="primary" onclick="startExercise()">Start</button>
+    <button class="gray" onclick="replay()">Replay</button>
+    <button class="yellow" onclick="playArpeggio()">Arpeggio</button>
+    <button class="green" onclick="nextExercise()">Next</button>
+  </div>
+
+  <div>
+    <button class="purple" onclick="checkAnswer(1)">1</button>
+    <button class="purple" onclick="checkAnswer(3)">3</button>
+    <button class="purple" onclick="checkAnswer(5)">5</button>
+  </div>
+
+  <p id="result"></p>
+
+  <div class="stats">
+    <p>Score: <span id="score">0</span> / <span id="total">0</span></p>
+    <p>Success Rate: <span id="percentage">0</span>%</p>
+  </div>
+</div>
+
+<script>
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const ctx = new AudioContext();
+
+let correctAnswer = null;
+let lastExercise = null;
+let score = 0;
+let total = 0;
+
+function midiToFreq(midi) {
+  return 440 * Math.pow(2, (midi - 69) / 12);
+}
+
+function playPianoTone(freq, duration = 1.5, delay = 0) {
+  const now = ctx.currentTime + delay;
+  const harmonics = [1,2,3,4];
+  const gains = [1,0.5,0.3,0.15];
+
+  harmonics.forEach((h,i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.value = freq * h;
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.4 * gains[i], now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    osc.start(now);
+    osc.stop(now + duration);
+  });
+}
+
+function playChord(root, intervals){
+  intervals.forEach(i=>{
+    playPianoTone(midiToFreq(root+i), 2);
+  });
+}
+
+function playArpeggio(){
+  if(!lastExercise) return;
+  const {root, intervals} = lastExercise;
+  intervals.forEach((i,idx)=>{
+    playPianoTone(midiToFreq(root+i), 1.2, idx*0.6);
+  });
+}
+
+function generateExercise(){
+  const root = Math.floor(Math.random()*12)+60;
+  const type = Math.random()>0.5 ? "major":"minor";
+  const intervals = type==="major" ? [0,4,7] : [0,3,7];
+
+  const options=[1,3,5];
+  const chosen=options[Math.floor(Math.random()*3)];
+  const index = chosen===1?0:chosen===3?1:2;
+  const octaveShift = Math.random()>0.5?12:-12;
+
+  correctAnswer=chosen;
+  lastExercise={root, intervals, index, octaveShift};
+
+  playChord(root, intervals);
+
+  setTimeout(()=>{
+    playPianoTone(
+      midiToFreq(root+intervals[index]+octaveShift),
+      1.5
+    );
+  },2000);
+}
+
+function startExercise(){
+  document.getElementById("result").innerText="";
+  generateExercise();
+}
+
+function nextExercise(){
+  document.getElementById("result").innerText="";
+  generateExercise();
+}
+
+function replay(){
+  if(!lastExercise) return;
+  const {root, intervals, index, octaveShift}=lastExercise;
+
+  playChord(root, intervals);
+  setTimeout(()=>{
+    playPianoTone(
+      midiToFreq(root+intervals[index]+octaveShift),
+      1.5
+    );
+  },2000);
+}
+
+function checkAnswer(answer){
+  if(!correctAnswer) return;
+
+  total++;
+  if(answer===correctAnswer){
+    score++;
+    document.getElementById("result").innerText="Correct! 🎉";
+  } else {
+    document.getElementById("result").innerText="Not quite 😅 It was "+correctAnswer;
+  }
+
+  correctAnswer=null;
+
+  document.getElementById("score").innerText=score;
+  document.getElementById("total").innerText=total;
+  document.getElementById("percentage").innerText=
+    total>0 ? Math.round((score/total)*100) : 0;
+}
+</script>
+
+</body>
+</html>
