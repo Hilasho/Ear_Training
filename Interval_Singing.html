@@ -1,175 +1,227 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>🎵 Interval Singing Trainer</title>
 <style>
-:root {
-  --bg: linear-gradient(135deg,#60a5fa,#818cf8);
-  --card-bg: #ffffff;
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --secondary: #64748b;
-  --text: #111827;
-  --muted: #6b7280;
-  --radius: 18px;
-}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-* { box-sizing: border-box; }
+  :root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --success: #10b981;
+    --danger: #ef4444;
+    --secondary: rgba(255, 255, 255, 0.1);
+    --secondary-hover: rgba(255, 255, 255, 0.15);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --radius-card: 24px;
+    --radius-btn: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-body {
-  margin: 0;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  color: var(--text);
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.card {
-  width: 100%;
-  max-width: 650px;
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 32px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
 
-h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  text-align: center;
-}
+  .card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-.stats {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  font-size: 0.95rem;
-  color: var(--muted);
-}
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-.stats span {
-  flex: 1;
-  text-align: center;
-}
+  .back-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    transition: var(--transition);
+  }
 
-button {
-  border: none;
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+  .back-link:hover { color: var(--text-main); transform: translateX(-4px); }
 
-button:disabled { opacity: 0.5; cursor: not-allowed; }
+  h1 { font-size: 1.8rem; text-align: center; font-weight: 700; margin: 0; }
 
-.primary { background: var(--primary); color: white; }
-.primary:hover { background: var(--primary-dark); }
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    border-radius: 16px;
+  }
 
-.secondary { background: var(--secondary); color: white; }
+  .stats span { flex: 1; text-align: center; }
+  .stats strong { color: var(--text-main); font-weight: 600; }
 
-.success { background: var(--success); color: white; }
-.danger { background: var(--danger); color: white; }
+  button {
+    border: none;
+    border-radius: var(--radius-btn);
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: var(--transition);
+    color: white;
+  }
 
-.outline {
-  background: white;
-  border: 1px solid #ccc;
-}
+  button:active { transform: scale(0.97); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.feedback {
-  text-align: center;
-  font-weight: 600;
-  min-height: 24px;
-  font-size: 1.1rem;
-}
+  .primary { background: var(--primary); }
+  .primary:hover { background: var(--primary-hover); box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
 
-.feedback.correct { color: var(--success); }
-.feedback.wrong { color: var(--danger); }
+  .secondary { background: var(--secondary); color: var(--text-main); border: 1px solid var(--card-border); }
+  .secondary:hover { background: var(--secondary-hover); }
 
-.exercise {
-  text-align: center;
-  font-size: 1.1rem;
-  padding: 12px;
-  background: #f3f4f6;
-  border-radius: 12px;
-  min-height: 60px;
-}
+  .success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+  .success:hover { background: var(--success); color: white; }
 
-.controls, .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
+  .danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+  .danger:hover { background: var(--danger); color: white; }
 
-label {
-  font-weight: 600;
-  margin-top: 12px;
-}
+  .outline { background: transparent; border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 16px; font-size: 0.85rem;}
+  .outline:hover { color: var(--text-main); border-color: var(--text-muted); }
 
-select {
-  margin-left: 8px;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
+  .exercise {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
 
-.progress {
-  height: 10px;
-  background: #e5e7eb;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 6px;
-}
+  .controls, .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: var(--primary);
-  transition: width 0.3s ease;
-}
+  .settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-@media(max-width:480px){
-  .card{padding:24px;}
-  button{flex:1;}
-}
+  label { font-weight: 500; color: var(--text-muted); font-size: 0.95rem; }
+  
+  select {
+    margin-left: 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.3);
+    color: var(--text-main);
+    border: 1px solid var(--card-border);
+    font-family: inherit;
+    outline: none;
+  }
+
+  .progress {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: -8px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--primary);
+  }
+
+  .feedback {
+    text-align: center;
+    font-weight: 600;
+    min-height: 24px;
+    font-size: 1.1rem;
+    transition: var(--transition);
+  }
+
+  .feedback.correct { color: var(--success); }
+  .feedback.wrong { color: var(--danger); }
+
+  @media(max-width: 480px) {
+    .card { padding: 24px; }
+    button { flex: 1; }
+    .settings-row { flex-direction: column; gap: 16px; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
 
 <div class="card">
-  <h1>🎶 Interval Singing Trainer</h1>
+  <a href="index.html" class="back-link">← Back to Hub</a>
+  
+  <h1>Interval Singing Trainer</h1>
 
   <div class="stats">
     <span>✔ Correct: <strong id="correct">0</strong></span>
     <span>✘ Wrong: <strong id="wrong">0</strong></span>
     <span>Attempts: <strong id="attempts">0</strong></span>
-    <span>Success: <strong id="rate">0</strong>%</span>
+    <span>Rate: <strong id="rate">0</strong>%</span>
   </div>
 
   <div class="progress">
     <div id="progressBar" class="progress-bar"></div>
   </div>
 
-  <button class="outline" onclick="resetStats()">Reset Statistics</button>
+  <div class="settings-row">
+    <button class="outline" onclick="resetStats()">Reset Stats</button>
+    <label>Octave:
+      <select id="octave">
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+      </select>
+    </label>
+  </div>
 
-  <div class="exercise" id="exercise">Ready for a new exercise 🎵</div>
+  <div class="exercise" id="exercise"><span style="color: var(--text-muted)">Ready for a new exercise 🎵</span></div>
 
   <div class="controls">
     <button class="primary" onclick="generateExercise()">New Exercise</button>
-    <button class="secondary" onclick="tellMe()">Tell Me</button>
+    <button class="secondary" onclick="tellMe()">Play Target</button>
   </div>
 
   <div class="actions">
@@ -177,32 +229,18 @@ select {
     <button class="danger" onclick="markWrong()">I Missed It ✘</button>
   </div>
 
-  <label>Octave:
-    <select id="octave">
-      <option value="3">3</option>
-      <option value="4" selected>4</option>
-      <option value="5">5</option>
-    </select>
-  </label>
-
   <div id="feedback" class="feedback"></div>
 </div>
 
 <script>
 const NOTES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const INTERVALS = [
-  { name: "Minor 2nd", semitones: 1 },
-  { name: "Major 2nd", semitones: 2 },
-  { name: "Minor 3rd", semitones: 3 },
-  { name: "Major 3rd", semitones: 4 },
-  { name: "Perfect 4th", semitones: 5 },
-  { name: "Tritone", semitones: 6 },
-  { name: "Perfect 5th", semitones: 7 },
-  { name: "Minor 6th", semitones: 8 },
-  { name: "Major 6th", semitones: 9 },
-  { name: "Minor 7th", semitones: 10 },
-  { name: "Major 7th", semitones: 11 },
-  { name: "Octave", semitones: 12 }
+  { name: "Minor 2nd", semitones: 1 }, { name: "Major 2nd", semitones: 2 },
+  { name: "Minor 3rd", semitones: 3 }, { name: "Major 3rd", semitones: 4 },
+  { name: "Perfect 4th", semitones: 5 }, { name: "Tritone", semitones: 6 },
+  { name: "Perfect 5th", semitones: 7 }, { name: "Minor 6th", semitones: 8 },
+  { name: "Major 6th", semitones: 9 }, { name: "Minor 7th", semitones: 10 },
+  { name: "Major 7th", semitones: 11 }, { name: "Octave", semitones: 12 }
 ];
 
 let audioCtx;
@@ -245,8 +283,9 @@ function generateExercise(){
   const freq=noteToFrequency(currentNoteIndex,octave);
 
   document.getElementById("exercise").innerHTML=
-    `Starting note: <strong>${NOTES[currentNoteIndex]}${octave}</strong><br>
-     Sing a <strong>${currentInterval.name}</strong> ${direction}`;
+    `<span style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Starting note</span><br>
+     <strong style="font-size: 1.5rem; color: var(--text-main);">${NOTES[currentNoteIndex]}${octave}</strong><br><br>
+     Sing a <strong style="color: var(--primary);">${currentInterval.name}</strong> ${direction}`;
 
   playPianoTone(freq);
 }
@@ -272,12 +311,4 @@ function updateStats(){
 }
 
 function playSuccess(){ playPianoTone(880,0.4); setTimeout(()=>playPianoTone(1100,0.4),200); }
-function playFail(){ playPianoTone(220,0.6); }
-
-function markCorrect(){ correct++; updateStats(); document.getElementById("feedback").className="feedback correct"; document.getElementById("feedback").textContent="✔ Correct!"; playSuccess(); setTimeout(generateExercise,800); }
-function markWrong(){ wrong++; updateStats(); document.getElementById("feedback").className="feedback wrong"; document.getElementById("feedback").textContent="✘ Missed"; playFail(); setTimeout(generateExercise,800); }
-function resetStats(){ correct=0; wrong=0; updateStats(); document.getElementById("feedback").textContent=""; }
-</script>
-
-</body>
-</html>
+function play
