@@ -4,229 +4,300 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>🎵 Interval Singing Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-  :root {
-    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --success: #10b981;
-    --danger: #ef4444;
-    --secondary: rgba(255, 255, 255, 0.1);
-    --secondary-hover: rgba(255, 255, 255, 0.15);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --radius-card: 24px;
-    --radius-btn: 12px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-gradient);
-    color: var(--text-main);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-
-  .card {
-    width: 100%;
-    max-width: 600px;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-card);
-    padding: 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .back-link {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    align-self: flex-start;
-    transition: var(--transition);
-  }
-
-  .back-link:hover { color: var(--text-main); transform: translateX(-4px); }
-
-  h1 { font-size: 1.8rem; text-align: center; font-weight: 700; margin: 0; }
-
-  .stats {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    background: rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    border-radius: 16px;
-  }
-
-  .stats span { flex: 1; text-align: center; }
-  .stats strong { color: var(--text-main); font-weight: 600; }
-
-  button {
-    border: none;
-    border-radius: var(--radius-btn);
-    padding: 14px 20px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    transition: var(--transition);
-    color: white;
-  }
-
-  button:active { transform: scale(0.97); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .primary { background: var(--primary); }
-  .primary:hover { background: var(--primary-hover); box-shadow: 0 0 15px rgba(99, 102, 241, 0.4); }
-
-  .secondary { background: var(--secondary); color: var(--text-main); border: 1px solid var(--card-border); }
-  .secondary:hover { background: var(--secondary-hover); }
-
-  .success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
-  .success:hover { background: var(--success); color: white; }
-
-  .danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
-  .danger:hover { background: var(--danger); color: white; }
-
-  .outline { background: transparent; border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 16px; font-size: 0.85rem;}
-  .outline:hover { color: var(--text-main); border-color: var(--text-muted); }
-
-  .exercise {
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 24px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .controls, .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-
-  .settings-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  label { font-weight: 500; color: var(--text-muted); font-size: 0.95rem; }
+:root {
+  --sunflower: #FFCC00;
+  --hot-pink: #FF0066;
+  --electric-blue: #4361EE;
+  --mint-green: #00F5D4;
+  --punk-black: #1A1A1D;
+  --off-white: #FDFDFF;
   
-  select {
-    margin-left: 8px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: rgba(0,0,0,0.3);
-    color: var(--text-main);
-    border: 1px solid var(--card-border);
-    font-family: inherit;
-    outline: none;
-  }
+  --border-thick: 4px solid var(--punk-black);
+  --shadow-hard: 6px 6px 0px var(--punk-black);
+  --shadow-hover: 2px 2px 0px var(--punk-black);
+  --radius-cute: 16px;
+  --radius-pill: 50px;
+}
 
-  .progress {
-    height: 6px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: -8px;
-  }
+* { 
+  box-sizing: border-box; 
+  font-family: 'Outfit', system-ui, sans-serif;
+}
 
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--primary);
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px var(--primary);
-  }
+body {
+  margin: 0;
+  background-color: var(--off-white);
+  /* Checkered punk background */
+  background-image: 
+    linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0),
+    linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: var(--punk-black);
+}
 
-  .feedback {
-    text-align: center;
-    font-weight: 600;
-    min-height: 24px;
-    font-size: 1.1rem;
-    transition: var(--transition);
-  }
+.card {
+  width: 100%;
+  max-width: 500px;
+  background: var(--sunflower);
+  border: var(--border-thick);
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 12px 12px 0px var(--punk-black);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
 
-  .feedback.correct { color: var(--success); }
-  .feedback.wrong { color: var(--danger); }
+/* Cute punk sticker effect */
+.card::before {
+  content: '🌻 VOCALS ⚡️';
+  position: absolute;
+  top: 16px;
+  right: -35px;
+  background: var(--hot-pink);
+  color: var(--off-white);
+  padding: 4px 40px;
+  transform: rotate(15deg);
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: 2px solid var(--punk-black);
+  box-shadow: 2px 2px 0 var(--punk-black);
+  z-index: 10;
+}
 
-  @media(max-width: 480px) {
-    .card { padding: 24px; }
-    button { flex: 1; }
-    .settings-row { flex-direction: column; gap: 16px; align-items: flex-start; }
-  }
+h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  text-shadow: 3px 3px 0px var(--off-white);
+}
+
+/* Stats Grid */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.stat-badge {
+  background: var(--off-white);
+  border: 2px solid var(--punk-black);
+  border-radius: var(--radius-cute);
+  padding: 10px;
+  text-align: center;
+  box-shadow: 3px 3px 0px var(--punk-black);
+}
+
+.stat-badge strong {
+  font-size: 1.2rem;
+  display: block;
+  color: var(--hot-pink);
+}
+
+.progress {
+  height: 20px;
+  background: var(--off-white);
+  border: 2px solid var(--punk-black);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--mint-green);
+  border-right: 2px solid var(--punk-black);
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-reset {
+  background: transparent;
+  border: 2px dashed var(--punk-black);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  align-self: center;
+  transition: all 0.2s;
+  color: var(--punk-black);
+}
+.btn-reset:hover {
+  background: var(--punk-black);
+  color: var(--sunflower);
+}
+
+/* The Exercise Screen */
+.exercise {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 24px;
+  background: var(--punk-black);
+  color: var(--off-white);
+  border-radius: var(--radius-cute);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  transform: rotate(-1deg);
+  box-shadow: 6px 6px 0px var(--electric-blue);
+  border: 2px solid var(--punk-black);
+}
+
+.exercise strong {
+  color: var(--sunflower);
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+/* Buttons */
+.controls, .actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+button.tactile {
+  flex: 1;
+  border: var(--border-thick);
+  border-radius: var(--radius-cute);
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button.tactile:active {
+  transform: translate(4px, 4px);
+  box-shadow: var(--shadow-hover);
+}
+
+button.tactile:disabled { 
+  opacity: 0.5; 
+  cursor: not-allowed; 
+  transform: none;
+  box-shadow: var(--shadow-hard);
+}
+
+.primary { background: var(--off-white); color: var(--punk-black); }
+.secondary { background: var(--electric-blue); color: var(--off-white); }
+.success { background: var(--mint-green); color: var(--punk-black); }
+.danger { background: var(--hot-pink); color: var(--off-white); }
+
+/* Settings */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  background: var(--off-white);
+  padding: 12px;
+  border: 2px solid var(--punk-black);
+  border-radius: var(--radius-cute);
+  box-shadow: 3px 3px 0px var(--punk-black);
+}
+
+select {
+  padding: 6px 12px;
+  border: 2px solid var(--punk-black);
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 1rem;
+  background: var(--sunflower);
+  cursor: pointer;
+  outline: none;
+}
+
+/* Feedback Animation */
+.feedback {
+  text-align: center;
+  font-weight: 900;
+  min-height: 30px;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s ease;
+}
+
+.feedback.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
+.feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
+
+@media(max-width:480px){
+  .card { padding: 24px 16px; border-width: 3px; box-shadow: 8px 8px 0px var(--punk-black); }
+  h1 { font-size: 1.8rem; }
+  .controls, .actions { flex-direction: column; }
+  button.tactile { width: 100%; }
+}
 </style>
 </head>
 <body>
 
 <div class="card">
-  <a href="index.html" class="back-link">← Back to Hub</a>
-  
-  <h1>Interval Singing Trainer</h1>
+  <h1>Interval<br>Trainer</h1>
 
   <div class="stats">
-    <span>✔ Correct: <strong id="correct">0</strong></span>
-    <span>✘ Wrong: <strong id="wrong">0</strong></span>
-    <span>Attempts: <strong id="attempts">0</strong></span>
-    <span>Rate: <strong id="rate">0</strong>%</span>
+    <div class="stat-badge">✔ Correct <strong id="correct">0</strong></div>
+    <div class="stat-badge">✘ Wrong <strong id="wrong">0</strong></div>
+    <div class="stat-badge">Attempts <strong id="attempts">0</strong></div>
+    <div class="stat-badge">Success <strong id="rate">0</strong>%</div>
   </div>
 
   <div class="progress">
     <div id="progressBar" class="progress-bar"></div>
   </div>
 
-  <div class="settings-row">
-    <button class="outline" onclick="resetStats()">Reset Stats</button>
-    <label>Octave:
-      <select id="octave">
-        <option value="3">3</option>
-        <option value="4" selected>4</option>
-        <option value="5">5</option>
-      </select>
-    </label>
-  </div>
+  <button class="btn-reset" onclick="resetStats()">↺ Reset Stats</button>
 
-  <div class="exercise" id="exercise"><span style="color: var(--text-muted)">Ready for a new exercise 🎵</span></div>
+  <div class="exercise" id="exercise">Ready to sing? 🎤<br> Hit New Exercise!</div>
 
   <div class="controls">
-    <button class="primary" onclick="generateExercise()">New Exercise</button>
-    <button class="secondary" onclick="tellMe()">Play Target</button>
+    <button class="tactile primary" onclick="generateExercise()">New 🎵</button>
+    <button class="tactile secondary" onclick="tellMe()">Tell Me 🎹</button>
   </div>
 
   <div class="actions">
-    <button class="success" onclick="markCorrect()">I Got It ✔</button>
-    <button class="danger" onclick="markWrong()">I Missed It ✘</button>
+    <button class="tactile success" onclick="markCorrect()">Nailed It ✔</button>
+    <button class="tactile danger" onclick="markWrong()">Missed ✘</button>
+  </div>
+
+  <div class="settings-row">
+    <label for="octave">Octave:</label>
+    <select id="octave">
+      <option value="3">3</option>
+      <option value="4" selected>4</option>
+      <option value="5">5</option>
+    </select>
   </div>
 
   <div id="feedback" class="feedback"></div>
@@ -235,12 +306,18 @@
 <script>
 const NOTES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const INTERVALS = [
-  { name: "Minor 2nd", semitones: 1 }, { name: "Major 2nd", semitones: 2 },
-  { name: "Minor 3rd", semitones: 3 }, { name: "Major 3rd", semitones: 4 },
-  { name: "Perfect 4th", semitones: 5 }, { name: "Tritone", semitones: 6 },
-  { name: "Perfect 5th", semitones: 7 }, { name: "Minor 6th", semitones: 8 },
-  { name: "Major 6th", semitones: 9 }, { name: "Minor 7th", semitones: 10 },
-  { name: "Major 7th", semitones: 11 }, { name: "Octave", semitones: 12 }
+  { name: "Minor 2nd", semitones: 1 },
+  { name: "Major 2nd", semitones: 2 },
+  { name: "Minor 3rd", semitones: 3 },
+  { name: "Major 3rd", semitones: 4 },
+  { name: "Perfect 4th", semitones: 5 },
+  { name: "Tritone", semitones: 6 },
+  { name: "Perfect 5th", semitones: 7 },
+  { name: "Minor 6th", semitones: 8 },
+  { name: "Major 6th", semitones: 9 },
+  { name: "Minor 7th", semitones: 10 },
+  { name: "Major 7th", semitones: 11 },
+  { name: "Octave", semitones: 12 }
 ];
 
 let audioCtx;
@@ -281,11 +358,17 @@ function generateExercise(){
   direction=Math.random()>0.5?"above":"below";
   const octave=parseInt(document.getElementById("octave").value);
   const freq=noteToFrequency(currentNoteIndex,octave);
+  
+  const dirIcon = direction === "above" ? "⬆️ up" : "⬇️ down";
 
   document.getElementById("exercise").innerHTML=
-    `<span style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Starting note</span><br>
-     <strong style="font-size: 1.5rem; color: var(--text-main);">${NOTES[currentNoteIndex]}${octave}</strong><br><br>
-     Sing a <strong style="color: var(--primary);">${currentInterval.name}</strong> ${direction}`;
+    `Start on: <br><strong>${NOTES[currentNoteIndex]}${octave}</strong><br>
+     Sing a <strong>${currentInterval.name}</strong> ${dirIcon}`;
+
+  // Clear feedback
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback";
+  fb.textContent = "";
 
   playPianoTone(freq);
 }
@@ -311,4 +394,41 @@ function updateStats(){
 }
 
 function playSuccess(){ playPianoTone(880,0.4); setTimeout(()=>playPianoTone(1100,0.4),200); }
-function play
+function playFail(){ playPianoTone(220,0.6); }
+
+function showFeedback(text, type) {
+  const fb = document.getElementById("feedback");
+  fb.textContent = text;
+  fb.className = `feedback show ${type}`;
+}
+
+function markCorrect(){ 
+  if(currentNoteIndex === null) return;
+  correct++; 
+  updateStats(); 
+  showFeedback("🔥 PERFECT!", "correct"); 
+  playSuccess(); 
+  setTimeout(generateExercise, 1000); 
+}
+
+function markWrong(){ 
+  if(currentNoteIndex === null) return;
+  wrong++; 
+  updateStats(); 
+  showFeedback("💀 OOF, MISSED", "wrong"); 
+  playFail(); 
+  setTimeout(generateExercise, 1000); 
+}
+
+function resetStats(){ 
+  correct=0; 
+  wrong=0; 
+  updateStats(); 
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback";
+  fb.textContent = ""; 
+}
+</script>
+
+</body>
+</html>
