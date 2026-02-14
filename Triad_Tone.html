@@ -14,7 +14,7 @@
   --punk-black: #1A1A1D;
   --off-white: #FDFDFF;
   
-  --border-thick: 4px solid var(--punk-black);
+  --border-thick: clamp(2px, 0.5vh, 4px) solid var(--punk-black);
   --shadow-hard: 6px 6px 0px var(--punk-black);
   --shadow-hover: 8px 8px 0px var(--punk-black);
   --shadow-active: 2px 2px 0px var(--punk-black);
@@ -38,10 +38,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: clamp(16px, 4vw, 32px);
+  height: 100dvh; /* Locks exactly to screen height */
+  overflow: hidden; /* Prevent body scroll */
+  padding: clamp(10px, 3vh, 20px);
   color: var(--punk-black);
-  overflow-x: hidden;
 }
 
 /* Animations */
@@ -69,30 +69,34 @@ body {
 
 .card {
   width: 100%;
-  max-width: 540px;
+  max-width: 500px;
+  max-height: 100%;
   background: var(--sunflower);
   border: var(--border-thick);
   border-radius: 24px;
-  padding: clamp(24px, 5vw, 40px);
-  box-shadow: 12px 12px 0px var(--punk-black);
+  padding: clamp(16px, 4vh, 32px) clamp(16px, 4vw, 32px);
+  box-shadow: clamp(6px, 1.5vh, 12px) clamp(6px, 1.5vh, 12px) 0px var(--punk-black);
   display: flex;
   flex-direction: column;
-  gap: clamp(16px, 3vw, 24px);
+  gap: clamp(10px, 2vh, 20px);
   position: relative;
   animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  overflow-y: auto; /* Fallback internal scroll */
 }
+
+.card::-webkit-scrollbar { width: 0px; }
 
 .card::before {
   content: '🎸 CHORDS ⚡️';
   position: absolute;
-  top: 16px;
-  right: -30px;
+  top: clamp(8px, 2vh, 16px);
+  right: -25px;
   background: var(--hot-pink);
   color: var(--off-white);
   padding: 4px 40px;
   transform: rotate(15deg);
   font-weight: 900;
-  font-size: clamp(0.75rem, 2vw, 0.85rem);
+  font-size: clamp(0.7rem, 1.5vh, 0.85rem);
   letter-spacing: 1px;
   border: 2px solid var(--punk-black);
   box-shadow: 2px 2px 0 var(--punk-black);
@@ -100,51 +104,42 @@ body {
   transition: all 0.3s ease;
 }
 
-.card:hover::before {
-  animation: wiggle 0.6s ease-in-out;
-}
+.card:hover::before { animation: wiggle 0.6s ease-in-out; }
 
-/* Nav & Back Button */
+/* Nav */
 .top-nav {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: -16px;
+  margin-bottom: clamp(-16px, -2vh, -8px);
   z-index: 1;
 }
 
 .btn-back {
   background: var(--off-white);
   color: var(--punk-black);
-  border: 3px solid var(--punk-black);
+  border: clamp(2px, 0.4vh, 3px) solid var(--punk-black);
   border-radius: 10px;
-  padding: 6px 14px;
+  padding: clamp(4px, 1vh, 6px) clamp(10px, 2vw, 14px);
   font-weight: 900;
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vh, 0.85rem);
   box-shadow: 3px 3px 0px var(--punk-black);
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.btn-back:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px var(--punk-black);
-}
-
-.btn-back:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px var(--punk-black);
-}
+.btn-back:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--punk-black); }
+.btn-back:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--punk-black); }
 
 .header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(4px, 1vh, 8px);
 }
 
 h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-size: clamp(1.8rem, 4vh, 2.6rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -1px;
@@ -155,9 +150,9 @@ h1 {
 .subtitle {
   margin: 0;
   font-weight: 800;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  font-size: clamp(0.85rem, 2vh, 1rem);
   background: var(--off-white);
-  padding: 8px 12px;
+  padding: clamp(4px, 1vh, 8px) 12px;
   border: 2px solid var(--punk-black);
   border-radius: 8px;
   display: inline-block;
@@ -166,123 +161,98 @@ h1 {
   transition: transform 0.3s;
 }
 
-.subtitle:hover {
-  transform: rotate(2deg);
-}
+.subtitle:hover { transform: rotate(2deg); }
 
 /* Stats Grid */
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  gap: clamp(8px, 1.5vh, 12px);
+  font-size: clamp(0.8rem, 1.8vh, 0.95rem);
   font-weight: 800;
 }
 
 .stat-badge {
   background: var(--off-white);
-  border: 2px solid var(--punk-black);
+  border: clamp(1px, 0.3vh, 2px) solid var(--punk-black);
   border-radius: var(--radius-cute);
-  padding: 12px 10px;
+  padding: clamp(8px, 1.5vh, 12px) 8px;
   text-align: center;
-  box-shadow: 3px 3px 0px var(--punk-black);
+  box-shadow: 2px 2px 0px var(--punk-black);
   transition: transform 0.2s ease;
 }
 
-.stat-badge:hover {
-  transform: scale(1.05) rotate(1deg);
-}
+.stat-badge:hover { transform: scale(1.05) rotate(1deg); }
 
 .stat-badge strong {
-  font-size: clamp(1.2rem, 3vw, 1.4rem);
+  font-size: clamp(1.1rem, 2.5vh, 1.4rem);
   display: block;
   color: var(--hot-pink);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .progress {
-  height: 24px;
+  height: clamp(16px, 3vh, 24px);
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-pill);
   overflow: hidden;
   box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1);
-  position: relative;
 }
 
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: repeating-linear-gradient(
-    45deg,
-    var(--mint-green),
-    var(--mint-green) 15px,
-    #00dfc0 15px,
-    #00dfc0 30px
-  );
+  background: repeating-linear-gradient(45deg, var(--mint-green), var(--mint-green) 15px, #00dfc0 15px, #00dfc0 30px);
   background-size: 42px 100%;
   border-right: 2px solid var(--punk-black);
   transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation: stripe-scroll 1.5s linear infinite;
 }
 
-/* Buttons */
-button.tactile {
-  border: var(--border-thick);
-  border-radius: var(--radius-cute);
-  padding: clamp(12px, 3vw, 16px);
-  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: var(--shadow-hard);
-  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
-}
-
-button.tactile:hover:not(:disabled) {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-hover);
-  filter: brightness(1.05);
-}
-
-button.tactile:active:not(:disabled) {
-  transform: translate(4px, 4px);
-  box-shadow: var(--shadow-active);
-}
-
-button.tactile:disabled { 
-  opacity: 0.5; 
-  cursor: not-allowed; 
-  filter: grayscale(0.8);
-}
-
 /* Controls Grid */
 .controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(8px, 1.5vh, 12px);
 }
+
+button.tactile {
+  border: var(--border-thick);
+  border-radius: clamp(10px, 2vh, 16px);
+  padding: clamp(10px, 2vh, 14px);
+  font-size: clamp(0.85rem, 2vh, 1.1rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: clamp(4px, 1vh, 6px) clamp(4px, 1vh, 6px) 0px var(--punk-black);
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
+}
+
+button.tactile:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: var(--shadow-hover); filter: brightness(1.05); }
+button.tactile:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: var(--shadow-active); }
+button.tactile:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.8); }
 
 .primary { background: var(--off-white); color: var(--punk-black); }
 .secondary { background: var(--electric-blue); color: var(--off-white); }
 .warning { background: var(--hot-pink); color: var(--off-white); }
 .success { background: var(--mint-green); color: var(--punk-black); }
 
-/* Answer Keys */
+/* Answer Keys (No longer forced aspect-ratio squares so they don't break height) */
 .answers {
   display: flex;
-  gap: clamp(10px, 3vw, 20px);
+  gap: clamp(8px, 2vw, 16px);
   justify-content: center;
-  margin-top: 8px;
+  margin-top: clamp(4px, 1vh, 8px);
 }
 
 .tone-btn {
   flex: 1;
-  aspect-ratio: 1;
-  font-size: clamp(2rem, 8vw, 2.8rem) !important;
+  min-height: clamp(60px, 12vh, 100px); /* Responsive height instead of fixed square */
+  font-size: clamp(2rem, 5vh, 2.8rem) !important;
   background: var(--punk-black);
   color: var(--off-white);
-  border-radius: clamp(12px, 4vw, 20px) !important;
+  border-radius: clamp(12px, 2vh, 20px) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,33 +261,26 @@ button.tactile:disabled {
 .tone-btn:hover:not(:disabled) {
   background: var(--off-white);
   color: var(--punk-black);
-  transform: translate(-4px, -4px) rotate(-3deg);
-  box-shadow: 10px 10px 0px var(--punk-black);
+  transform: translate(-2px, -2px) rotate(-3deg);
+  box-shadow: clamp(6px, 1.5vh, 10px) clamp(6px, 1.5vh, 10px) 0px var(--punk-black);
 }
 
-/* Feedback Animation */
+/* Feedback - Fixed height */
 .feedback {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 900;
-  min-height: 40px;
-  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  height: clamp(30px, 5vh, 40px);
+  font-size: clamp(1.2rem, 3vh, 1.6rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0;
 }
 
-.feedback.show {
-  animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
+.feedback.show { animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 .feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
 .feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
-
-@media(max-width:360px){
-  /* Deep fallback for very narrow phones */
-  .answers { flex-direction: column; }
-  .tone-btn { aspect-ratio: auto; padding: 20px; }
-}
 </style>
 </head>
 <body>
@@ -366,9 +329,7 @@ let lastExercise = null;
 let score = 0;
 let total = 0;
 
-function midiToFreq(midi) {
-  return 440 * Math.pow(2, (midi - 69) / 12);
-}
+function midiToFreq(midi) { return 440 * Math.pow(2, (midi - 69) / 12); }
 
 function playPianoTone(freq, duration = 1.5, delay = 0) {
   const now = ctx.currentTime + delay;
@@ -390,24 +351,13 @@ function playPianoTone(freq, duration = 1.5, delay = 0) {
   });
 }
 
-function playChord(root, intervals){
-  intervals.forEach(i=>{
-    playPianoTone(midiToFreq(root+i), 2);
-  });
-}
-
-function playArpeggio(){
-  if(!lastExercise) return;
-  const {root, intervals} = lastExercise;
-  intervals.forEach((i,idx)=>{
-    playPianoTone(midiToFreq(root+i), 1.2, idx*0.6);
-  });
-}
+function playChord(root, intervals){ intervals.forEach(i=>{ playPianoTone(midiToFreq(root+i), 2); }); }
+function playArpeggio(){ if(!lastExercise) return; const {root, intervals} = lastExercise; intervals.forEach((i,idx)=>{ playPianoTone(midiToFreq(root+i), 1.2, idx*0.6); }); }
 
 function resetFeedback() {
   const resultEl = document.getElementById("result");
   resultEl.className = "feedback";
-  void resultEl.offsetWidth; // Trigger reflow
+  void resultEl.offsetWidth; 
   resultEl.textContent = "";
 }
 
@@ -425,41 +375,18 @@ function generateExercise(){
   lastExercise={root, intervals, index, octaveShift};
 
   playChord(root, intervals);
-  setTimeout(()=>{
-    playPianoTone(
-      midiToFreq(root+intervals[index]+octaveShift),
-      1.5
-    );
-  },2000);
+  setTimeout(()=>{ playPianoTone(midiToFreq(root+intervals[index]+octaveShift), 1.5); },2000);
 }
 
-function startExercise(){
-  generateExercise();
-}
-
-function nextExercise(){
-  generateExercise();
-}
-
-function replay(){
-  if(!lastExercise) return;
-  resetFeedback();
-  const {root, intervals, index, octaveShift}=lastExercise;
-  playChord(root, intervals);
-  setTimeout(()=>{
-    playPianoTone(
-      midiToFreq(root+intervals[index]+octaveShift),
-      1.5
-    );
-  },2000);
-}
+function startExercise(){ generateExercise(); }
+function nextExercise(){ generateExercise(); }
+function replay(){ if(!lastExercise) return; resetFeedback(); const {root, intervals, index, octaveShift}=lastExercise; playChord(root, intervals); setTimeout(()=>{ playPianoTone(midiToFreq(root+intervals[index]+octaveShift), 1.5); },2000); }
 
 function checkAnswer(answer){
   if(!correctAnswer) return;
-
   const resultEl = document.getElementById("result");
   total++;
-
+  
   if(answer===correctAnswer){
     score++;
     resultEl.textContent="🔥 PERFECT!";
@@ -470,10 +397,8 @@ function checkAnswer(answer){
   }
 
   correctAnswer=null;
-
   document.getElementById("score").innerText=score;
   document.getElementById("total").innerText=total;
-
   const percent = total>0 ? Math.round((score/total)*100) : 0;
   document.getElementById("percentage").innerText=percent;
   document.getElementById("progressBar").style.width=percent+"%";
