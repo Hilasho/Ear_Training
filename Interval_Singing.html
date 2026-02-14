@@ -1,80 +1,192 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Interval Singing Trainer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      max-width: 700px;
-      width: 100%;
-      text-align: center;
-    }
-    button {
-      padding: 10px 18px;
-      margin: 6px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .primary { background: #2563eb; color: white; }
-    .secondary { background: #64748b; color: white; }
-    .success { background: #16a34a; color: white; }
-    .danger { background: #dc2626; color: white; }
-    .outline { background: white; border: 1px solid #ccc; }
-    .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
-    .intervals { max-height: 150px; overflow-y: auto; text-align: left; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎵 Interval Singing Trainer</title>
+<style>
+:root {
+  --bg: linear-gradient(135deg,#60a5fa,#818cf8);
+  --card-bg: #ffffff;
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --secondary: #64748b;
+  --text: #111827;
+  --muted: #6b7280;
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: var(--text);
+}
+
+.card {
+  width: 100%;
+  max-width: 650px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.stats span {
+  flex: 1;
+  text-align: center;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.primary { background: var(--primary); color: white; }
+.primary:hover { background: var(--primary-dark); }
+
+.secondary { background: var(--secondary); color: white; }
+
+.success { background: var(--success); color: white; }
+.danger { background: var(--danger); color: white; }
+
+.outline {
+  background: white;
+  border: 1px solid #ccc;
+}
+
+.feedback {
+  text-align: center;
+  font-weight: 600;
+  min-height: 24px;
+  font-size: 1.1rem;
+}
+
+.feedback.correct { color: var(--success); }
+.feedback.wrong { color: var(--danger); }
+
+.exercise {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  min-height: 60px;
+}
+
+.controls, .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+select {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.progress {
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+@media(max-width:480px){
+  .card{padding:24px;}
+  button{flex:1;}
+}
+</style>
 </head>
 <body>
-  <div class="card">
-    <h2>🎶 Interval Singing Trainer</h2>
 
-    <div class="stats">
-      <div>✔ Correct: <span id="correct">0</span></div>
-      <div>✘ Wrong: <span id="wrong">0</span></div>
-      <div>Attempts: <span id="attempts">0</span></div>
-      <div>Success: <span id="rate">0</span>%</div>
-    </div>
+<div class="card">
+  <h1>🎶 Interval Singing Trainer</h1>
 
-    <button class="outline" onclick="resetStats()">Reset Statistics</button>
-
-    <div id="exercise" style="margin-top:20px;"></div>
-
-    <div style="margin-top:15px;">
-      <button class="primary" onclick="generateExercise()">New Exercise</button>
-      <button class="secondary" onclick="tellMe()">Tell Me</button>
-    </div>
-
-    <div style="margin-top:15px;">
-      <button class="success" onclick="markCorrect()">I Got It ✔</button>
-      <button class="danger" onclick="markWrong()">I Missed It ✘</button>
-    </div>
-
-    <div style="margin-top:20px;">
-      <label>Octave:
-        <select id="octave">
-          <option value="3">3</option>
-          <option value="4" selected>4</option>
-          <option value="5">5</option>
-        </select>
-      </label>
-    </div>
+  <div class="stats">
+    <span>✔ Correct: <strong id="correct">0</strong></span>
+    <span>✘ Wrong: <strong id="wrong">0</strong></span>
+    <span>Attempts: <strong id="attempts">0</strong></span>
+    <span>Success: <strong id="rate">0</strong>%</span>
   </div>
+
+  <div class="progress">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+
+  <button class="outline" onclick="resetStats()">Reset Statistics</button>
+
+  <div class="exercise" id="exercise">Ready for a new exercise 🎵</div>
+
+  <div class="controls">
+    <button class="primary" onclick="generateExercise()">New Exercise</button>
+    <button class="secondary" onclick="tellMe()">Tell Me</button>
+  </div>
+
+  <div class="actions">
+    <button class="success" onclick="markCorrect()">I Got It ✔</button>
+    <button class="danger" onclick="markWrong()">I Missed It ✘</button>
+  </div>
+
+  <label>Octave:
+    <select id="octave">
+      <option value="3">3</option>
+      <option value="4" selected>4</option>
+      <option value="5">5</option>
+    </select>
+  </label>
+
+  <div id="feedback" class="feedback"></div>
+</div>
 
 <script>
 const NOTES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
@@ -94,82 +206,78 @@ const INTERVALS = [
 ];
 
 let audioCtx;
-let currentNoteIndex = null;
-let currentInterval = null;
-let direction = null;
-let correct = 0;
-let wrong = 0;
+let currentNoteIndex=null;
+let currentInterval=null;
+let direction=null;
+let correct=0;
+let wrong=0;
 
-function ensureAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-}
+function ensureAudio(){ if(!audioCtx) audioCtx=new(AudioContext||webkitAudioContext)(); }
 
-function playPianoTone(frequency, duration = 1.5) {
+function playPianoTone(freq,duration=1.5){
   ensureAudio();
-  const now = audioCtx.currentTime;
-  const harmonics = [1,2,3,4];
-  const gains = [1,0.5,0.3,0.15];
-
-  harmonics.forEach((h,i)=>{
-    const osc = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    osc.type = "sine";
-    osc.frequency.value = frequency*h;
+  const now=audioCtx.currentTime;
+  [1,2,3,4].forEach((h,i)=>{
+    const osc=audioCtx.createOscillator();
+    const gainNode=audioCtx.createGain();
+    osc.type="sine";
+    osc.frequency.value=freq*h;
     osc.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    gainNode.gain.setValueAtTime(gains[i], now);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, now+duration);
+    gainNode.gain.setValueAtTime(0.4/(i+1),now);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001,now+duration);
     osc.start(now);
     osc.stop(now+duration);
   });
 }
 
-function noteToFrequency(noteIndex, octave) {
-  const a4Index = 9;
-  const semitoneDistance = noteIndex - a4Index + (octave - 4)*12;
+function noteToFrequency(noteIndex,octave){
+  const a4Index=9;
+  const semitoneDistance=noteIndex-a4Index+(octave-4)*12;
   return 440*Math.pow(2,semitoneDistance/12);
 }
 
-function generateExercise() {
-  currentNoteIndex = Math.floor(Math.random()*NOTES.length);
-  currentInterval = INTERVALS[Math.floor(Math.random()*INTERVALS.length)];
-  direction = Math.random()>0.5?"above":"below";
+function generateExercise(){
+  currentNoteIndex=Math.floor(Math.random()*NOTES.length);
+  currentInterval=INTERVALS[Math.floor(Math.random()*INTERVALS.length)];
+  direction=Math.random()>0.5?"above":"below";
+  const octave=parseInt(document.getElementById("octave").value);
+  const freq=noteToFrequency(currentNoteIndex,octave);
 
-  const octave = parseInt(document.getElementById("octave").value);
-  const freq = noteToFrequency(currentNoteIndex, octave);
-
-  document.getElementById("exercise").innerHTML =
+  document.getElementById("exercise").innerHTML=
     `Starting note: <strong>${NOTES[currentNoteIndex]}${octave}</strong><br>
      Sing a <strong>${currentInterval.name}</strong> ${direction}`;
 
   playPianoTone(freq);
 }
 
-function tellMe() {
+function tellMe(){
   if(currentNoteIndex===null) return;
-  const octave = parseInt(document.getElementById("octave").value);
-  const baseFreq = noteToFrequency(currentNoteIndex, octave);
-  const semitoneChange = direction==="above"?currentInterval.semitones:-currentInterval.semitones;
-  const targetFreq = baseFreq*Math.pow(2,semitoneChange/12);
+  const octave=parseInt(document.getElementById("octave").value);
+  const baseFreq=noteToFrequency(currentNoteIndex,octave);
+  const semitoneChange=direction==="above"?currentInterval.semitones:-currentInterval.semitones;
+  const targetFreq=baseFreq*Math.pow(2,semitoneChange/12);
   playPianoTone(baseFreq);
   setTimeout(()=>playPianoTone(targetFreq),1200);
 }
 
 function updateStats(){
-  const attempts = correct+wrong;
+  const attempts=correct+wrong;
   document.getElementById("correct").innerText=correct;
   document.getElementById("wrong").innerText=wrong;
   document.getElementById("attempts").innerText=attempts;
-  document.getElementById("rate").innerText=attempts?Math.round((correct/attempts)*100):0;
+  const rate=attempts?Math.round((correct/attempts)*100):0;
+  document.getElementById("rate").innerText=rate;
+  document.getElementById("progressBar").style.width=rate+"%";
 }
 
 function playSuccess(){ playPianoTone(880,0.4); setTimeout(()=>playPianoTone(1100,0.4),200); }
 function playFail(){ playPianoTone(220,0.6); }
 
-function markCorrect(){ correct++; updateStats(); playSuccess(); setTimeout(generateExercise,800); }
-function markWrong(){ wrong++; updateStats(); playFail(); setTimeout(generateExercise,800); }
-
-function resetStats(){ correct=0; wrong=0; updateStats(); }
+function markCorrect(){ correct++; updateStats(); document.getElementById("feedback").className="feedback correct"; document.getElementById("feedback").textContent="✔ Correct!"; playSuccess(); setTimeout(generateExercise,800); }
+function markWrong(){ wrong++; updateStats(); document.getElementById("feedback").className="feedback wrong"; document.getElementById("feedback").textContent="✘ Missed"; playFail(); setTimeout(generateExercise,800); }
+function resetStats(){ correct=0; wrong=0; updateStats(); document.getElementById("feedback").textContent=""; }
 </script>
+
 </body>
 </html>
