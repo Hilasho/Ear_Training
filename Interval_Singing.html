@@ -16,7 +16,8 @@
   
   --border-thick: 4px solid var(--punk-black);
   --shadow-hard: 6px 6px 0px var(--punk-black);
-  --shadow-hover: 2px 2px 0px var(--punk-black);
+  --shadow-hover: 8px 8px 0px var(--punk-black);
+  --shadow-active: 2px 2px 0px var(--punk-black);
   --radius-cute: 16px;
   --radius-pill: 50px;
 }
@@ -38,23 +39,47 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: clamp(16px, 4vw, 32px);
   color: var(--punk-black);
+  overflow-x: hidden;
+}
+
+/* Animations */
+@keyframes float-in {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(15deg); }
+  25% { transform: rotate(10deg) scale(1.1); }
+  75% { transform: rotate(20deg) scale(1.1); }
+}
+
+@keyframes stripe-scroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
 }
 
 .card {
   width: 100%;
-  max-width: 500px;
+  max-width: 540px;
   background: var(--sunflower);
   border: var(--border-thick);
   border-radius: 24px;
-  padding: 32px 24px;
+  padding: clamp(24px, 5vw, 40px);
   box-shadow: 12px 12px 0px var(--punk-black);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: clamp(16px, 3vw, 24px);
   position: relative;
-  overflow: hidden;
+  animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .card::before {
@@ -67,18 +92,23 @@ body {
   padding: 4px 40px;
   transform: rotate(15deg);
   font-weight: 900;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
   letter-spacing: 1px;
   border: 2px solid var(--punk-black);
   box-shadow: 2px 2px 0 var(--punk-black);
   z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.card:hover::before {
+  animation: wiggle 0.6s ease-in-out;
 }
 
 /* Nav & Back Button */
 .top-nav {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: -12px; /* Pulls header up closer */
+  margin-bottom: -12px;
   z-index: 1;
 }
 
@@ -93,7 +123,12 @@ body {
   text-transform: uppercase;
   font-size: 0.85rem;
   box-shadow: 3px 3px 0px var(--punk-black);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-back:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--punk-black);
 }
 
 .btn-back:active {
@@ -103,20 +138,20 @@ body {
 
 h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: clamp(2rem, 6vw, 2.6rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -1px;
-  line-height: 1.1;
+  line-height: 1.05;
   text-shadow: 3px 3px 0px var(--off-white);
 }
 
 /* Stats Grid */
 .stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 12px;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   font-weight: 800;
 }
 
@@ -124,32 +159,47 @@ h1 {
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-cute);
-  padding: 10px;
+  padding: 12px 8px;
   text-align: center;
   box-shadow: 3px 3px 0px var(--punk-black);
+  transition: transform 0.2s ease;
+}
+
+.stat-badge:hover {
+  transform: scale(1.05) rotate(-1deg);
 }
 
 .stat-badge strong {
-  font-size: 1.2rem;
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
   display: block;
   color: var(--hot-pink);
+  margin-top: 4px;
 }
 
 .progress {
-  height: 20px;
+  height: 24px;
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-pill);
   overflow: hidden;
   box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: var(--mint-green);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--mint-green),
+    var(--mint-green) 15px,
+    #00dfc0 15px,
+    #00dfc0 30px
+  );
+  background-size: 42px 100%;
   border-right: 2px solid var(--punk-black);
-  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: stripe-scroll 1.5s linear infinite;
 }
 
 .btn-reset {
@@ -164,20 +214,22 @@ h1 {
   transition: all 0.2s;
   color: var(--punk-black);
 }
+
 .btn-reset:hover {
   background: var(--punk-black);
   color: var(--sunflower);
+  transform: rotate(2deg);
 }
 
 /* The Exercise Screen */
 .exercise {
   text-align: center;
-  font-size: 1.2rem;
-  padding: 24px;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  padding: clamp(16px, 4vw, 24px);
   background: var(--punk-black);
   color: var(--off-white);
   border-radius: var(--radius-cute);
-  min-height: 100px;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -185,45 +237,54 @@ h1 {
   transform: rotate(-1deg);
   box-shadow: 6px 6px 0px var(--electric-blue);
   border: 2px solid var(--punk-black);
+  transition: transform 0.3s;
+}
+
+.exercise:hover {
+  transform: rotate(0deg) scale(1.02);
 }
 
 .exercise strong {
   color: var(--sunflower);
-  font-size: 1.8rem;
+  font-size: clamp(1.6rem, 5vw, 2rem);
   font-weight: 900;
   letter-spacing: 1px;
 }
 
 /* Buttons */
 .controls, .actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
-  justify-content: center;
 }
 
 button.tactile {
-  flex: 1;
   border: var(--border-thick);
   border-radius: var(--radius-cute);
-  padding: 14px 20px;
-  font-size: 1rem;
+  padding: clamp(12px, 3vw, 16px);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: var(--shadow-hard);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
 }
 
-button.tactile:active {
-  transform: translate(4px, 4px);
+button.tactile:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-hover);
+  filter: brightness(1.05);
+}
+
+button.tactile:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: var(--shadow-active);
 }
 
 button.tactile:disabled { 
   opacity: 0.5; 
   cursor: not-allowed; 
-  transform: none;
-  box-shadow: var(--shadow-hard);
+  filter: grayscale(0.8);
 }
 
 .primary { background: var(--off-white); color: var(--punk-black); }
@@ -236,6 +297,7 @@ button.tactile:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
   font-weight: 800;
   font-size: 1.1rem;
@@ -255,35 +317,30 @@ select {
   background: var(--sunflower);
   cursor: pointer;
   outline: none;
+  transition: box-shadow 0.2s;
+}
+
+select:focus {
+  box-shadow: 0 0 0 3px var(--electric-blue);
 }
 
 /* Feedback Animation */
 .feedback {
   text-align: center;
   font-weight: 900;
-  min-height: 30px;
-  font-size: 1.4rem;
+  min-height: 40px;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.2s ease;
 }
 
 .feedback.show {
-  opacity: 1;
-  transform: translateY(0);
+  animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
 .feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
-
-@media(max-width:480px){
-  .card { padding: 24px 16px; border-width: 3px; box-shadow: 8px 8px 0px var(--punk-black); }
-  h1 { font-size: 1.8rem; }
-  .controls, .actions { flex-direction: column; }
-  button.tactile { width: 100%; }
-}
 </style>
 </head>
 <body>
@@ -390,12 +447,21 @@ function generateExercise(){
   
   const dirIcon = direction === "above" ? "⬆️ up" : "⬇️ down";
 
-  document.getElementById("exercise").innerHTML=
+  const exerciseEl = document.getElementById("exercise");
+  
+  // Quick pulse animation on new exercise
+  exerciseEl.style.transform = "rotate(-1deg) scale(0.95)";
+  setTimeout(() => {
+    exerciseEl.style.transform = "rotate(-1deg) scale(1)";
+  }, 100);
+
+  exerciseEl.innerHTML =
     `Start on: <br><strong>${NOTES[currentNoteIndex]}${octave}</strong><br>
      Sing a <strong>${currentInterval.name}</strong> ${dirIcon}`;
 
   const fb = document.getElementById("feedback");
-  fb.className = "feedback";
+  fb.className = "feedback"; // Reset animation
+  void fb.offsetWidth; // Trigger reflow to restart animation later
   fb.textContent = "";
 
   playPianoTone(freq);
@@ -417,6 +483,8 @@ function updateStats(){
   document.getElementById("wrong").innerText=wrong;
   document.getElementById("attempts").innerText=attempts;
   const rate=attempts?Math.round((correct/attempts)*100):0;
+  
+  // Count up animation for rate could go here, keeping it simple for now
   document.getElementById("rate").innerText=rate;
   document.getElementById("progressBar").style.width=rate+"%";
 }
@@ -426,6 +494,8 @@ function playFail(){ playPianoTone(220,0.6); }
 
 function showFeedback(text, type) {
   const fb = document.getElementById("feedback");
+  fb.className = "feedback"; // Reset
+  void fb.offsetWidth; // Trigger DOM reflow to restart css animation
   fb.textContent = text;
   fb.className = `feedback show ${type}`;
 }
@@ -436,7 +506,7 @@ function markCorrect(){
   updateStats(); 
   showFeedback("🔥 PERFECT!", "correct"); 
   playSuccess(); 
-  setTimeout(generateExercise, 1000); 
+  setTimeout(generateExercise, 1200); 
 }
 
 function markWrong(){ 
@@ -445,7 +515,7 @@ function markWrong(){
   updateStats(); 
   showFeedback("💀 OOF, MISSED", "wrong"); 
   playFail(); 
-  setTimeout(generateExercise, 1000); 
+  setTimeout(generateExercise, 1200); 
 }
 
 function resetStats(){ 
