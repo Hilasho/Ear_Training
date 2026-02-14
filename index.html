@@ -14,9 +14,10 @@
   --punk-black: #1A1A1D;
   --off-white: #FDFDFF;
   
-  --border-thick: 4px solid var(--punk-black);
-  --shadow-hard: 8px 8px 0px var(--punk-black);
-  --shadow-hover: 2px 2px 0px var(--punk-black);
+  --border-thick: clamp(2px, 0.5vh, 4px) solid var(--punk-black);
+  --shadow-hard: clamp(6px, 1.5vh, 10px) clamp(6px, 1.5vh, 10px) 0px var(--punk-black);
+  --shadow-hover: clamp(8px, 2vh, 12px) clamp(8px, 2vh, 12px) 0px var(--punk-black);
+  --shadow-active: 2px 2px 0px var(--punk-black);
   --radius-cute: 16px;
 }
 
@@ -29,7 +30,6 @@
 
 body {
   background-color: var(--off-white);
-  /* Checkered punk background */
   background-image: 
     linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0),
     linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0);
@@ -39,144 +39,161 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  height: 100dvh; /* Locks exactly to screen height */
+  overflow: hidden; /* Prevent body scroll */
+  padding: clamp(16px, 4vh, 32px);
+}
+
+/* Animations */
+@keyframes float-in {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(15deg); }
+  25% { transform: rotate(10deg) scale(1.1); }
+  75% { transform: rotate(20deg) scale(1.1); }
 }
 
 .container {
   background: var(--sunflower);
   border: var(--border-thick);
   border-radius: 24px;
-  padding: 40px 32px;
+  padding: clamp(32px, 6vh, 48px) clamp(24px, 5vw, 40px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: clamp(24px, 5vh, 40px);
   max-width: 480px;
   width: 100%;
-  box-shadow: 12px 12px 0px var(--punk-black);
+  max-height: 100%;
+  box-shadow: clamp(8px, 2vh, 16px) clamp(8px, 2vh, 16px) 0px var(--punk-black);
   position: relative;
-  overflow: hidden;
+  animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  overflow-y: auto; /* Fallback internal scroll */
 }
 
-/* Cute punk sticker effect */
+.container::-webkit-scrollbar { width: 0px; }
+
 .container::before {
   content: '🌻 GET LOUD ⚡️';
   position: absolute;
-  top: 20px;
-  right: -35px;
+  top: clamp(12px, 3vh, 20px);
+  right: -30px;
   background: var(--mint-green);
   color: var(--punk-black);
   padding: 6px 40px;
   transform: rotate(15deg);
   font-weight: 900;
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 1.8vh, 0.9rem);
   letter-spacing: 1px;
   border: 2px solid var(--punk-black);
   box-shadow: 3px 3px 0 var(--punk-black);
   z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.container:hover::before {
+  animation: wiggle 0.6s ease-in-out;
 }
 
 .header-group {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: clamp(8px, 2vh, 16px);
   align-items: center;
 }
 
 h1 {
-  font-size: 3.2rem;
+  font-size: clamp(2.5rem, 6vh, 3.5rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -2px;
-  line-height: 1;
+  line-height: 1.05;
   text-shadow: 4px 4px 0px var(--off-white);
   margin-bottom: 0;
 }
 
 .subtitle {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 2vh, 1.1rem);
   background: var(--off-white);
-  padding: 8px 16px;
+  padding: clamp(6px, 1.5vh, 10px) 16px;
   border: 2px solid var(--punk-black);
   border-radius: 8px;
   display: inline-block;
   box-shadow: 3px 3px 0px var(--punk-black);
+  transition: transform 0.3s ease;
+}
+
+.subtitle:hover {
+  transform: rotate(-2deg) scale(1.05);
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(16px, 3vh, 24px);
   width: 100%;
 }
 
 a {
   text-decoration: none;
   display: block;
+  outline: none;
 }
 
 .button {
   border: var(--border-thick);
   border-radius: var(--radius-cute);
-  padding: 20px 24px;
-  font-size: 1.4rem;
+  padding: clamp(16px, 3vh, 24px) clamp(20px, 4vw, 24px);
+  font-size: clamp(1.2rem, 3vh, 1.5rem);
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: var(--shadow-hard);
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.button:active {
-  transform: translate(6px, 6px);
+.button:hover {
+  transform: translate(-2px, -2px);
   box-shadow: var(--shadow-hover);
+  filter: brightness(1.05);
 }
 
-.btn-triad {
-  background: var(--electric-blue);
-  color: var(--off-white);
+.button:active {
+  transform: translate(4px, 4px);
+  box-shadow: var(--shadow-active);
 }
 
-.btn-interval {
-  background: var(--hot-pink);
-  color: var(--off-white);
-}
+.btn-triad { background: var(--electric-blue); color: var(--off-white); }
+.btn-interval { background: var(--hot-pink); color: var(--off-white); }
 
 .arrow {
-  font-size: 1.8rem;
+  font-size: clamp(1.2rem, 3vh, 1.8rem);
   background: var(--punk-black);
-  color: var(--sunflower);
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 6vh, 44px);
+  height: clamp(32px, 6vh, 44px);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
   border: 2px solid var(--punk-black);
+  transition: transform 0.2s ease;
 }
 
-.btn-interval .arrow {
-  color: var(--hot-pink);
-  background: var(--off-white);
+.button:hover .arrow {
+  transform: translateX(4px);
 }
 
-.btn-triad .arrow {
-  color: var(--electric-blue);
-  background: var(--off-white);
-}
+.btn-interval .arrow { color: var(--hot-pink); background: var(--off-white); }
+.btn-triad .arrow { color: var(--electric-blue); background: var(--off-white); }
 
-@media(max-width:480px){
-  .container { padding: 32px 20px; border-width: 3px; box-shadow: 8px 8px 0px var(--punk-black); }
-  h1 { font-size: 2.5rem; }
-  .button { font-size: 1.1rem; padding: 16px 20px; }
-  .arrow { width: 32px; height: 32px; font-size: 1.4rem; }
-}
 </style>
 </head>
 <body>
