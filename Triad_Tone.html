@@ -29,7 +29,6 @@
 body {
   margin: 0;
   background-color: var(--off-white);
-  /* Checkered punk background */
   background-image: 
     linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0),
     linear-gradient(45deg, #e5e5f0 25%, transparent 25%, transparent 75%, #e5e5f0 75%, #e5e5f0);
@@ -57,7 +56,6 @@ body {
   position: relative;
 }
 
-/* Cute punk sticker effect */
 .card::before {
   content: '🎸 CHORDS ⚡️';
   position: absolute;
@@ -73,6 +71,33 @@ body {
   border: 2px solid var(--punk-black);
   box-shadow: 2px 2px 0 var(--punk-black);
   z-index: 10;
+}
+
+/* Nav & Back Button */
+.top-nav {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: -16px;
+  z-index: 1;
+}
+
+.btn-back {
+  background: var(--off-white);
+  color: var(--punk-black);
+  border: 3px solid var(--punk-black);
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  box-shadow: 3px 3px 0px var(--punk-black);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-back:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--punk-black);
 }
 
 .header {
@@ -192,7 +217,7 @@ button.tactile:disabled {
 
 .tone-btn {
   flex: 1;
-  aspect-ratio: 1; /* Makes them perfect squares */
+  aspect-ratio: 1;
   font-size: 2.5rem !important;
   background: var(--punk-black);
   color: var(--off-white);
@@ -235,6 +260,10 @@ button.tactile:disabled {
 <body>
 
 <div class="card">
+  <div class="top-nav">
+    <a href="index.html" class="btn-back">⬅ Back</a>
+  </div>
+
   <div class="header">
     <h1>Triad<br>Tones</h1>
     <p class="subtitle">Hear a chord, then spot the tone.</p>
