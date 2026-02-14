@@ -5,91 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎵 Ear Training Hub</title>
 <style>
-:root {
-  --bg: linear-gradient(135deg, #06b6d4, #5eead4); /* turquoise gradient */
-  --card-bg: rgba(255,255,255,0.15);
-  --button-bg: white;
-  --button-text: #0f766e;
-  --button-hover: #e0f2f1;
-  --radius: 18px;
-  --text-color: #ffffff;
-}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-* { box-sizing: border-box; margin:0; padding:0; }
+  :root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --radius-card: 24px;
+    --radius-btn: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  text-align: center;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.container {
-  background: var(--card-bg);
-  padding: 40px;
-  border-radius: var(--radius);
-  backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  max-width: 450px;
-  width: 100%;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 0;
-}
+  .container {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    padding: 48px;
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-}
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-a {
-  text-decoration: none;
-}
+  .header { text-align: center; }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #a5b4fc, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
 
-.button {
-  background: var(--button-bg);
-  color: var(--button-text);
-  padding: 16px 24px;
-  border-radius: var(--radius);
-  font-size: 1.2rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  text-align: center;
-  display: block;
-}
+  p.subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
 
-.button:hover {
-  background: var(--button-hover);
-  transform: scale(1.05);
-}
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
 
-@media(max-width:480px){
-  h1 { font-size: 2.2rem; }
-  .button { font-size: 1rem; padding: 14px 20px; }
-}
+  a { text-decoration: none; width: 100%; }
+
+  .button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    padding: 20px 24px;
+    border-radius: var(--radius-btn);
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.3);
+  }
+
+  .button::after {
+    content: '→';
+    opacity: 0.5;
+    transition: var(--transition);
+  }
+
+  .button:hover::after {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  @media(max-width: 480px) {
+    .container { padding: 32px 24px; }
+    h1 { font-size: 2rem; }
+    .button { font-size: 1rem; padding: 16px 20px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🎵 Ear Training Hub</h1>
+  <div class="header">
+    <h1>Ear Training Hub</h1>
+    <p class="subtitle">Select an exercise to begin</p>
+  </div>
 
   <div class="buttons">
-    <a href="Triad_Tone.html"><div class="button">Triad Tone Exercise</div></a>
-    <a href="Interval_Singing.html"><div class="button">Interval Singing Exercise</div></a>
+    <a href="Triad_Tone.html"><div class="button">Triad Tone Recognition</div></a>
+    <a href="Interval_Singing.html"><div class="button">Interval Singing</div></a>
   </div>
 </div>
 
