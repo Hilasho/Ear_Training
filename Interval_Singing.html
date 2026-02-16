@@ -10,14 +10,14 @@
   --sunflower: #FFCC00;
   --hot-pink: #FF0066;
   --electric-blue: #4361EE;
+  --electric-purple: #9D4EDD; /* צבע סגול חדש */
   --mint-green: #00F5D4;
   --punk-black: #1A1A1D;
   --off-white: #FDFDFF;
   
-  --border-thick: clamp(2px, 0.5vh, 4px) solid var(--punk-black);
-  --shadow-hard: 6px 6px 0px var(--punk-black);
-  --shadow-hover: 8px 8px 0px var(--punk-black);
-  --shadow-active: 2px 2px 0px var(--punk-black);
+  --border-thick: clamp(2px, 0.5vh, 3px) solid var(--punk-black);
+  --shadow-hard: 4px 4px 0px var(--punk-black);
+  --shadow-active: 1px 1px 0px var(--punk-black);
   --radius-cute: 16px;
   --radius-pill: 50px;
 }
@@ -38,28 +38,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100dvh;
-  overflow: hidden;
-  padding: clamp(10px, 3vh, 20px);
+  height: 100dvh; /* Locks to screen height */
+  overflow: hidden; /* No scroll on body */
+  padding: 10px;
   color: var(--punk-black);
 }
 
 /* Animations */
 @keyframes float-in {
-  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  0% { opacity: 0; transform: translateY(20px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes pop-in {
-  0% { transform: scale(0.8); opacity: 0; }
-  60% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(15deg); }
-  25% { transform: rotate(10deg) scale(1.1); }
-  75% { transform: rotate(20deg) scale(1.1); }
 }
 
 @keyframes stripe-scroll {
@@ -69,328 +57,247 @@ body {
 
 .card {
   width: 100%;
-  max-width: 500px;
-  max-height: 100%;
+  max-width: 450px;
+  height: 100%;
+  max-height: 800px;
   background: var(--sunflower);
   border: var(--border-thick);
-  border-radius: 24px;
-  padding: clamp(12px, 3vh, 24px); /* Slightly reduced padding for mobile */
-  box-shadow: clamp(6px, 1.5vh, 12px) clamp(6px, 1.5vh, 12px) 0px var(--punk-black);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-hard);
   display: flex;
   flex-direction: column;
-  gap: clamp(8px, 1.5vh, 16px);
+  gap: 10px; /* Tight gap to fit everything */
   position: relative;
-  animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  overflow-y: auto;
+  animation: float-in 0.5s ease-out forwards;
 }
 
-.card::-webkit-scrollbar { width: 0px; }
-
-.card::before {
-  content: '🌻 VOCALS ⚡️';
-  position: absolute;
-  top: clamp(8px, 2vh, 16px);
-  right: -30px;
-  background: var(--hot-pink);
-  color: var(--off-white);
-  padding: 4px 40px;
-  transform: rotate(15deg);
-  font-weight: 900;
-  font-size: clamp(0.7rem, 1.5vh, 0.85rem);
-  letter-spacing: 1px;
-  border: 2px solid var(--punk-black);
-  box-shadow: 2px 2px 0 var(--punk-black);
-  z-index: 10;
-  transition: all 0.3s ease;
-  pointer-events: none; /* Prevents blocking clicks */
-}
-
-.card:hover::before { animation: wiggle 0.6s ease-in-out; }
-
-/* Nav */
-.top-nav {
+/* Header & Nav */
+.header-row {
   display: flex;
-  justify-content: flex-start;
-  z-index: 1;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .btn-back {
   background: var(--off-white);
   color: var(--punk-black);
-  border: clamp(2px, 0.4vh, 3px) solid var(--punk-black);
-  border-radius: 10px;
-  padding: clamp(4px, 1vh, 6px) clamp(10px, 2vw, 14px);
-  font-weight: 900;
+  border: 2px solid var(--punk-black);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-weight: 800;
   text-decoration: none;
-  text-transform: uppercase;
-  font-size: clamp(0.75rem, 1.5vh, 0.85rem);
-  box-shadow: 3px 3px 0px var(--punk-black);
-  transition: transform 0.15s, box-shadow 0.15s;
+  font-size: 0.8rem;
+  box-shadow: 2px 2px 0px var(--punk-black);
 }
-
-.btn-back:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--punk-black); }
-.btn-back:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--punk-black); }
 
 h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 3.5vh, 2.6rem);
+  font-size: clamp(1.5rem, 3vh, 2rem);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -1px;
-  line-height: 1.05;
-  text-shadow: 3px 3px 0px var(--off-white);
+  line-height: 1;
+  text-align: right;
+  text-shadow: 2px 2px 0px var(--off-white);
 }
 
 /* Stats */
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(4px, 1vw, 10px);
-  font-size: clamp(0.65rem, 1.4vh, 0.8rem);
+  gap: 6px;
+  font-size: 0.7rem;
   font-weight: 800;
 }
 
 .stat-badge {
   background: var(--off-white);
-  border: clamp(1px, 0.3vh, 2px) solid var(--punk-black);
-  border-radius: 12px;
-  padding: clamp(4px, 1vh, 8px) 2px;
+  border: 2px solid var(--punk-black);
+  border-radius: 8px;
+  padding: 4px;
   text-align: center;
   box-shadow: 2px 2px 0px var(--punk-black);
-  transition: transform 0.2s ease;
 }
-
-.stat-badge:hover { transform: scale(1.05) rotate(-1deg); }
 
 .stat-badge strong {
-  font-size: clamp(0.9rem, 2vh, 1.2rem);
   display: block;
+  font-size: 1.1rem;
   color: var(--hot-pink);
-  margin-top: 2px;
+  line-height: 1.1;
 }
 
+/* Progress Bar */
 .progress {
-  height: clamp(14px, 2.5vh, 20px);
+  height: 12px;
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-pill);
   overflow: hidden;
-  box-shadow: inset 3px 3px 0px rgba(0,0,0,0.1);
 }
 
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: repeating-linear-gradient(45deg, var(--mint-green), var(--mint-green) 15px, #00dfc0 15px, #00dfc0 30px);
-  background-size: 42px 100%;
+  background: repeating-linear-gradient(45deg, var(--mint-green), var(--mint-green) 10px, #00dfc0 10px, #00dfc0 20px);
+  background-size: 28px 100%;
   border-right: 2px solid var(--punk-black);
-  transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation: stripe-scroll 1.5s linear infinite;
+  transition: width 0.3s ease;
 }
 
-.btn-reset {
-  background: transparent;
-  border: 2px dashed var(--punk-black);
-  border-radius: var(--radius-pill);
-  padding: 4px 16px;
-  font-size: clamp(0.7rem, 1.4vh, 0.8rem);
-  font-weight: 800;
-  cursor: pointer;
-  align-self: center;
-  transition: all 0.2s;
-  color: var(--punk-black);
-}
-
-.btn-reset:hover { background: var(--punk-black); color: var(--sunflower); transform: rotate(2deg); }
-
-/* Exercise Screen - IMPROVED LAYOUT */
+/* Exercise Screen - UPDATED: SMALLER TEXT, MORE PADDING */
 .exercise {
-  flex: 1;
+  flex: 1; /* Takes available space */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: clamp(10px, 2vh, 20px);
+  padding: 30px; /* Big padding */
   background: var(--punk-black);
   color: var(--off-white);
   border-radius: var(--radius-cute);
-  min-height: clamp(100px, 18vh, 140px); /* Slightly taller minimum */
-  gap: 8px;
-  transform: rotate(-1deg);
-  box-shadow: 6px 6px 0px var(--electric-blue);
+  box-shadow: 4px 4px 0px var(--electric-blue);
   border: 2px solid var(--punk-black);
-  transition: transform 0.3s;
+  transform: rotate(-0.5deg);
 }
 
-.exercise:hover { transform: rotate(0deg) scale(1.02); }
+.ex-label { font-size: 0.8rem; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
+.ex-note { font-size: 1.8rem; font-weight: 900; color: var(--sunflower); margin: 5px 0 15px 0; }
+.ex-interval { font-size: 1.4rem; font-weight: 900; color: var(--mint-green); line-height: 1.2; }
+.ex-dir { font-size: 0.9rem; margin-top: 5px; color: #ddd; }
 
-/* Internal Typography for Exercise to prevent overflow */
-.ex-line {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.2;
-}
-
-.ex-label {
-  font-size: clamp(0.8rem, 2vh, 1rem);
-  opacity: 0.8;
-}
-
-.ex-note {
-  font-size: clamp(1.5rem, 4vh, 2.2rem);
-  font-weight: 900;
-  color: var(--sunflower);
-  margin-bottom: 4px;
-}
-
-.ex-interval {
-  font-size: clamp(1.2rem, 3.5vh, 1.8rem);
-  font-weight: 900;
-  color: var(--mint-green);
-  line-height: 1.1;
-}
-
-.ex-dir {
-  font-size: clamp(0.9rem, 2.5vh, 1.2rem);
-  color: var(--off-white);
-  margin-top: 2px;
-}
-
-
-/* Controls Grid - UPDATED FOR 3 BUTTONS */
-.controls {
+/* THE BIG GRID - 6 BUTTONS */
+.button-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1.2fr; /* New / Repeat / Tell Me */
-  gap: clamp(6px, 1.5vh, 10px);
-}
-
-.actions {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(8px, 1.5vh, 12px);
+  grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+  grid-template-rows: repeat(2, 1fr);    /* 2 Rows */
+  gap: 8px;
+  height: 140px; /* Fixed height area for buttons */
 }
 
 button.tactile {
-  border: var(--border-thick);
-  border-radius: clamp(8px, 1.5vh, 14px);
-  padding: clamp(8px, 1.5vh, 14px) 4px; /* Reduced side padding for fit */
-  font-size: clamp(0.8rem, 1.8vh, 1rem);
+  border: 2px solid var(--punk-black);
+  border-radius: 12px;
+  font-size: 0.85rem;
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: clamp(3px, 0.8vh, 5px) clamp(3px, 0.8vh, 5px) 0px var(--punk-black);
-  transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
-  white-space: nowrap;
+  box-shadow: 3px 3px 0px var(--punk-black);
+  transition: all 0.1s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  line-height: 1.1;
+  width: 100%;
+  height: 100%; /* Fill the grid cell */
 }
 
-button.tactile:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: var(--shadow-hover); filter: brightness(1.05); }
-button.tactile:active:not(:disabled) { transform: translate(4px, 4px); box-shadow: var(--shadow-active); }
-button.tactile:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.8); }
+button.tactile span { font-size: 1.2rem; display: block; margin-bottom: 2px; }
 
-.primary { background: var(--off-white); color: var(--punk-black); }
-.secondary { background: var(--electric-blue); color: var(--off-white); }
-.tertiary { background: var(--sunflower); color: var(--punk-black); } /* Yellow for Repeat */
-.success { background: var(--mint-green); color: var(--punk-black); }
-.danger { background: var(--hot-pink); color: var(--off-white); }
+button.tactile:active { transform: translate(2px, 2px); box-shadow: var(--shadow-active); }
 
-/* Settings */
+/* Button Colors */
+.btn-new { background: var(--off-white); color: var(--punk-black); }
+.btn-repeat { background: var(--electric-purple); color: var(--off-white); } /* PURPLE */
+.btn-tell { background: var(--electric-blue); color: var(--off-white); }
+.btn-correct { background: var(--mint-green); color: var(--punk-black); }
+.btn-wrong { background: var(--hot-pink); color: var(--off-white); }
+.btn-reset { background: #ddd; color: var(--punk-black); font-size: 0.75rem; border-style: dashed;}
+
+/* Footer: Octave + Feedback */
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+}
+
 .settings-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 5px;
   font-weight: 800;
-  font-size: clamp(0.8rem, 1.8vh, 1rem);
+  font-size: 0.8rem;
   background: var(--off-white);
-  padding: clamp(4px, 1vh, 8px);
-  border: 2px solid var(--punk-black);
-  border-radius: var(--radius-cute);
-  box-shadow: 3px 3px 0px var(--punk-black);
-}
-
-select {
   padding: 4px 8px;
   border: 2px solid var(--punk-black);
   border-radius: 8px;
+}
+
+select {
+  padding: 2px;
+  border: 1px solid var(--punk-black);
+  border-radius: 4px;
   font-weight: 800;
   background: var(--sunflower);
-  cursor: pointer;
   outline: none;
 }
 
-/* Feedback */
 .feedback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 900;
-  height: clamp(24px, 4vh, 32px);
-  font-size: clamp(1rem, 2.5vh, 1.4rem);
+  font-size: 1.2rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  text-align: right;
+  flex: 1;
+  padding-right: 10px;
   opacity: 0;
 }
+.feedback.show { opacity: 1; }
+.feedback.correct { color: var(--punk-black); text-shadow: 1px 1px 0px var(--mint-green); }
+.feedback.wrong { color: var(--punk-black); text-shadow: 1px 1px 0px var(--hot-pink); }
 
-.feedback.show { animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-.feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
-.feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
-
-@media(max-width:360px){
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .controls { grid-template-columns: 1fr; } /* Stack buttons on tiny screens */
-}
 </style>
 </head>
 <body>
 
 <div class="card">
-  <div class="top-nav">
+  
+  <div class="header-row">
     <a href="index.html" class="btn-back">⬅ Back</a>
+    <h1>Interval<br>Trainer</h1>
   </div>
 
-  <h1>Interval<br>Trainer</h1>
-
   <div class="stats">
-    <div class="stat-badge">✔ Correct <strong id="correct">0</strong></div>
-    <div class="stat-badge">✘ Wrong <strong id="wrong">0</strong></div>
-    <div class="stat-badge">Attempts <strong id="attempts">0</strong></div>
-    <div class="stat-badge">Success <strong id="rate">0</strong>%</div>
+    <div class="stat-badge">✔ <strong id="correct">0</strong></div>
+    <div class="stat-badge">✘ <strong id="wrong">0</strong></div>
+    <div class="stat-badge">Try <strong id="attempts">0</strong></div>
+    <div class="stat-badge">% <strong id="rate">0</strong></div>
   </div>
 
   <div class="progress">
     <div id="progressBar" class="progress-bar"></div>
   </div>
 
-  <button class="btn-reset" onclick="resetStats()">↺ Reset Stats</button>
-
   <div class="exercise" id="exercise">
-    <div class="ex-line">Ready to sing? 🎤</div>
-    <div class="ex-line">Hit New Exercise!</div>
+    <div class="ex-label">Tap New to Start</div>
+    <div class="ex-note">🎤</div>
   </div>
 
-  <div class="controls">
-    <button class="tactile primary" onclick="generateExercise()">New 🎵</button>
-    <button class="tactile tertiary" onclick="repeatTone()">Repeat 🔊</button>
-    <button class="tactile secondary" onclick="tellMe()">Tell Me 🎹</button>
+  <div class="button-grid">
+    <button class="tactile btn-new" onclick="generateExercise()"><span>🎵</span>New</button>
+    <button class="tactile btn-repeat" onclick="repeatTone()"><span>🔊</span>Repeat</button>
+    <button class="tactile btn-tell" onclick="tellMe()"><span>🎹</span>Tell Me</button>
+    
+    <button class="tactile btn-correct" onclick="markCorrect()"><span>✔</span>Nailed It</button>
+    <button class="tactile btn-wrong" onclick="markWrong()"><span>✘</span>Missed</button>
+    <button class="tactile btn-reset" onclick="resetStats()"><span>↺</span>Reset</button>
   </div>
 
-  <div class="actions">
-    <button class="tactile success" onclick="markCorrect()">Nailed It ✔</button>
-    <button class="tactile danger" onclick="markWrong()">Missed ✘</button>
+  <div class="footer-row">
+    <div class="settings-row">
+      <label>Octave:</label>
+      <select id="octave">
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <div id="feedback" class="feedback"></div>
   </div>
 
-  <div class="settings-row">
-    <label for="octave">Octave:</label>
-    <select id="octave">
-      <option value="3">3</option>
-      <option value="4" selected>4</option>
-      <option value="5">5</option>
-    </select>
-  </div>
-
-  <div id="feedback" class="feedback"></div>
 </div>
 
 <script>
@@ -414,7 +321,7 @@ let audioCtx;
 let currentNoteIndex=null;
 let currentInterval=null;
 let direction=null;
-let currentFreq=null; // NEW: Store current frequency for repeat
+let currentFreq=null;
 let correct=0;
 let wrong=0;
 
@@ -448,41 +355,31 @@ function generateExercise(){
   currentInterval=INTERVALS[Math.floor(Math.random()*INTERVALS.length)];
   direction=Math.random()>0.5?"above":"below";
   const octave=parseInt(document.getElementById("octave").value);
-  currentFreq=noteToFrequency(currentNoteIndex,octave); // Store freq globally
+  currentFreq=noteToFrequency(currentNoteIndex,octave);
   
   const dirIcon = direction === "above" ? "⬆️ up" : "⬇️ down";
   const exerciseEl = document.getElementById("exercise");
   
-  // Animation reset
-  exerciseEl.style.transform = "rotate(-1deg) scale(0.95)";
-  setTimeout(() => { exerciseEl.style.transform = "rotate(-1deg) scale(1)"; }, 100);
+  exerciseEl.style.transform = "rotate(-0.5deg) scale(0.98)";
+  setTimeout(() => { exerciseEl.style.transform = "rotate(-0.5deg) scale(1)"; }, 100);
 
-  // NEW HTML STRUCTURE FOR BETTER RESPONSIVENESS
   exerciseEl.innerHTML = `
-    <div class="ex-line">
-      <span class="ex-label">Start on:</span>
-      <span class="ex-note">${NOTES[currentNoteIndex]}${octave}</span>
-    </div>
-    <div class="ex-line">
-      <span class="ex-label">Sing a:</span>
-      <span class="ex-interval">${currentInterval.name}</span>
-      <span class="ex-dir">${dirIcon}</span>
-    </div>
+    <div class="ex-label">Start on</div>
+    <div class="ex-note">${NOTES[currentNoteIndex]}${octave}</div>
+    <div class="ex-label">Sing a</div>
+    <div class="ex-interval">${currentInterval.name}</div>
+    <div class="ex-dir">${dirIcon}</div>
   `;
 
   const fb = document.getElementById("feedback");
   fb.className = "feedback"; 
-  void fb.offsetWidth; 
   fb.textContent = "";
 
   playPianoTone(currentFreq);
 }
 
-// NEW FUNCTION: REPEAT
 function repeatTone(){
-  if(currentFreq) {
-    playPianoTone(currentFreq);
-  }
+  if(currentFreq) playPianoTone(currentFreq);
 }
 
 function tellMe(){
@@ -508,21 +405,19 @@ function playFail(){ playPianoTone(220,0.6); }
 
 function showFeedback(text, type) {
   const fb = document.getElementById("feedback");
-  fb.className = "feedback"; 
-  void fb.offsetWidth; 
   fb.textContent = text;
   fb.className = `feedback show ${type}`;
 }
 
 function markCorrect(){ 
   if(currentNoteIndex === null) return;
-  correct++; updateStats(); showFeedback("🔥 PERFECT!", "correct"); 
+  correct++; updateStats(); showFeedback("Nice! 🔥", "correct"); 
   playSuccess(); setTimeout(generateExercise, 1200); 
 }
 
 function markWrong(){ 
   if(currentNoteIndex === null) return;
-  wrong++; updateStats(); showFeedback("💀 OOF, MISSED", "wrong"); 
+  wrong++; updateStats(); showFeedback("Missed 💀", "wrong"); 
   playFail(); setTimeout(generateExercise, 1200); 
 }
 
