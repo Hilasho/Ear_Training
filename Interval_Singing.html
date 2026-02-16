@@ -38,8 +38,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100dvh; /* Locks to screen height perfectly */
-  overflow: hidden; /* Prevents page scroll */
+  height: 100dvh;
+  overflow: hidden;
   padding: clamp(10px, 3vh, 20px);
   color: var(--punk-black);
 }
@@ -74,17 +74,16 @@ body {
   background: var(--sunflower);
   border: var(--border-thick);
   border-radius: 24px;
-  padding: clamp(16px, 4vh, 32px) clamp(16px, 4vw, 32px);
+  padding: clamp(12px, 3vh, 24px); /* Slightly reduced padding for mobile */
   box-shadow: clamp(6px, 1.5vh, 12px) clamp(6px, 1.5vh, 12px) 0px var(--punk-black);
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 2vh, 20px);
+  gap: clamp(8px, 1.5vh, 16px);
   position: relative;
   animation: float-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  overflow-y: auto; /* Internal scroll only if screen is absurdly tiny */
+  overflow-y: auto;
 }
 
-/* Hide scrollbar for cleaner look if it does trigger */
 .card::-webkit-scrollbar { width: 0px; }
 
 .card::before {
@@ -103,6 +102,7 @@ body {
   box-shadow: 2px 2px 0 var(--punk-black);
   z-index: 10;
   transition: all 0.3s ease;
+  pointer-events: none; /* Prevents blocking clicks */
 }
 
 .card:hover::before { animation: wiggle 0.6s ease-in-out; }
@@ -111,7 +111,6 @@ body {
 .top-nav {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: clamp(-16px, -2vh, -8px);
   z-index: 1;
 }
 
@@ -134,7 +133,7 @@ body {
 
 h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 4vh, 2.6rem);
+  font-size: clamp(1.8rem, 3.5vh, 2.6rem);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -1px;
@@ -146,8 +145,8 @@ h1 {
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(6px, 1vw, 12px);
-  font-size: clamp(0.7rem, 1.5vh, 0.9rem);
+  gap: clamp(4px, 1vw, 10px);
+  font-size: clamp(0.65rem, 1.4vh, 0.8rem);
   font-weight: 800;
 }
 
@@ -155,7 +154,7 @@ h1 {
   background: var(--off-white);
   border: clamp(1px, 0.3vh, 2px) solid var(--punk-black);
   border-radius: 12px;
-  padding: clamp(6px, 1.5vh, 10px) 4px;
+  padding: clamp(4px, 1vh, 8px) 2px;
   text-align: center;
   box-shadow: 2px 2px 0px var(--punk-black);
   transition: transform 0.2s ease;
@@ -164,14 +163,14 @@ h1 {
 .stat-badge:hover { transform: scale(1.05) rotate(-1deg); }
 
 .stat-badge strong {
-  font-size: clamp(1rem, 2vh, 1.3rem);
+  font-size: clamp(0.9rem, 2vh, 1.2rem);
   display: block;
   color: var(--hot-pink);
   margin-top: 2px;
 }
 
 .progress {
-  height: clamp(16px, 3vh, 24px);
+  height: clamp(14px, 2.5vh, 20px);
   background: var(--off-white);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-pill);
@@ -193,8 +192,8 @@ h1 {
   background: transparent;
   border: 2px dashed var(--punk-black);
   border-radius: var(--radius-pill);
-  padding: clamp(4px, 1vh, 8px) 16px;
-  font-size: clamp(0.75rem, 1.5vh, 0.85rem);
+  padding: 4px 16px;
+  font-size: clamp(0.7rem, 1.4vh, 0.8rem);
   font-weight: 800;
   cursor: pointer;
   align-self: center;
@@ -204,21 +203,20 @@ h1 {
 
 .btn-reset:hover { background: var(--punk-black); color: var(--sunflower); transform: rotate(2deg); }
 
-/* Exercise Screen */
+/* Exercise Screen - IMPROVED LAYOUT */
 .exercise {
-  flex: 1; /* Allows it to grow/shrink based on remaining height */
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: clamp(1rem, 2.5vh, 1.3rem);
-  padding: clamp(12px, 2vh, 24px);
+  padding: clamp(10px, 2vh, 20px);
   background: var(--punk-black);
   color: var(--off-white);
   border-radius: var(--radius-cute);
-  min-height: clamp(80px, 15vh, 120px);
-  gap: 4px;
+  min-height: clamp(100px, 18vh, 140px); /* Slightly taller minimum */
+  gap: 8px;
   transform: rotate(-1deg);
   box-shadow: 6px 6px 0px var(--electric-blue);
   border: 2px solid var(--punk-black);
@@ -226,10 +224,49 @@ h1 {
 }
 
 .exercise:hover { transform: rotate(0deg) scale(1.02); }
-.exercise strong { color: var(--sunflower); font-size: clamp(1.4rem, 3.5vh, 2rem); font-weight: 900; letter-spacing: 1px; }
 
-/* Controls Grid */
-.controls, .actions {
+/* Internal Typography for Exercise to prevent overflow */
+.ex-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.ex-label {
+  font-size: clamp(0.8rem, 2vh, 1rem);
+  opacity: 0.8;
+}
+
+.ex-note {
+  font-size: clamp(1.5rem, 4vh, 2.2rem);
+  font-weight: 900;
+  color: var(--sunflower);
+  margin-bottom: 4px;
+}
+
+.ex-interval {
+  font-size: clamp(1.2rem, 3.5vh, 1.8rem);
+  font-weight: 900;
+  color: var(--mint-green);
+  line-height: 1.1;
+}
+
+.ex-dir {
+  font-size: clamp(0.9rem, 2.5vh, 1.2rem);
+  color: var(--off-white);
+  margin-top: 2px;
+}
+
+
+/* Controls Grid - UPDATED FOR 3 BUTTONS */
+.controls {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr; /* New / Repeat / Tell Me */
+  gap: clamp(6px, 1.5vh, 10px);
+}
+
+.actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(8px, 1.5vh, 12px);
@@ -237,14 +274,15 @@ h1 {
 
 button.tactile {
   border: var(--border-thick);
-  border-radius: clamp(10px, 2vh, 16px);
-  padding: clamp(10px, 2vh, 16px);
-  font-size: clamp(0.85rem, 2vh, 1.1rem);
+  border-radius: clamp(8px, 1.5vh, 14px);
+  padding: clamp(8px, 1.5vh, 14px) 4px; /* Reduced side padding for fit */
+  font-size: clamp(0.8rem, 1.8vh, 1rem);
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: clamp(4px, 1vh, 6px) clamp(4px, 1vh, 6px) 0px var(--punk-black);
+  box-shadow: clamp(3px, 0.8vh, 5px) clamp(3px, 0.8vh, 5px) 0px var(--punk-black);
   transition: transform 0.1s, box-shadow 0.1s, filter 0.2s;
+  white-space: nowrap;
 }
 
 button.tactile:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: var(--shadow-hover); filter: brightness(1.05); }
@@ -253,6 +291,7 @@ button.tactile:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0
 
 .primary { background: var(--off-white); color: var(--punk-black); }
 .secondary { background: var(--electric-blue); color: var(--off-white); }
+.tertiary { background: var(--sunflower); color: var(--punk-black); } /* Yellow for Repeat */
 .success { background: var(--mint-green); color: var(--punk-black); }
 .danger { background: var(--hot-pink); color: var(--off-white); }
 
@@ -263,33 +302,32 @@ button.tactile:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0
   justify-content: center;
   gap: 10px;
   font-weight: 800;
-  font-size: clamp(0.9rem, 2vh, 1.1rem);
+  font-size: clamp(0.8rem, 1.8vh, 1rem);
   background: var(--off-white);
-  padding: clamp(6px, 1.5vh, 12px);
+  padding: clamp(4px, 1vh, 8px);
   border: 2px solid var(--punk-black);
   border-radius: var(--radius-cute);
   box-shadow: 3px 3px 0px var(--punk-black);
 }
 
 select {
-  padding: clamp(4px, 1vh, 6px) 12px;
+  padding: 4px 8px;
   border: 2px solid var(--punk-black);
   border-radius: 8px;
   font-weight: 800;
-  font-size: clamp(0.9rem, 2vh, 1rem);
   background: var(--sunflower);
   cursor: pointer;
   outline: none;
 }
 
-/* Feedback - Fixed height so it doesn't shift UI */
+/* Feedback */
 .feedback {
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  height: clamp(30px, 5vh, 40px);
-  font-size: clamp(1.2rem, 3vh, 1.6rem);
+  height: clamp(24px, 4vh, 32px);
+  font-size: clamp(1rem, 2.5vh, 1.4rem);
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0;
@@ -299,8 +337,9 @@ select {
 .feedback.correct { color: var(--punk-black); text-shadow: 2px 2px 0px var(--mint-green); }
 .feedback.wrong { color: var(--punk-black); text-shadow: 2px 2px 0px var(--hot-pink); }
 
-@media(max-width:400px){
+@media(max-width:360px){
   .stats { grid-template-columns: repeat(2, 1fr); }
+  .controls { grid-template-columns: 1fr; } /* Stack buttons on tiny screens */
 }
 </style>
 </head>
@@ -326,10 +365,14 @@ select {
 
   <button class="btn-reset" onclick="resetStats()">↺ Reset Stats</button>
 
-  <div class="exercise" id="exercise">Ready to sing? 🎤<br> Hit New Exercise!</div>
+  <div class="exercise" id="exercise">
+    <div class="ex-line">Ready to sing? 🎤</div>
+    <div class="ex-line">Hit New Exercise!</div>
+  </div>
 
   <div class="controls">
     <button class="tactile primary" onclick="generateExercise()">New 🎵</button>
+    <button class="tactile tertiary" onclick="repeatTone()">Repeat 🔊</button>
     <button class="tactile secondary" onclick="tellMe()">Tell Me 🎹</button>
   </div>
 
@@ -371,6 +414,7 @@ let audioCtx;
 let currentNoteIndex=null;
 let currentInterval=null;
 let direction=null;
+let currentFreq=null; // NEW: Store current frequency for repeat
 let correct=0;
 let wrong=0;
 
@@ -404,31 +448,48 @@ function generateExercise(){
   currentInterval=INTERVALS[Math.floor(Math.random()*INTERVALS.length)];
   direction=Math.random()>0.5?"above":"below";
   const octave=parseInt(document.getElementById("octave").value);
-  const freq=noteToFrequency(currentNoteIndex,octave);
+  currentFreq=noteToFrequency(currentNoteIndex,octave); // Store freq globally
   
   const dirIcon = direction === "above" ? "⬆️ up" : "⬇️ down";
   const exerciseEl = document.getElementById("exercise");
   
+  // Animation reset
   exerciseEl.style.transform = "rotate(-1deg) scale(0.95)";
   setTimeout(() => { exerciseEl.style.transform = "rotate(-1deg) scale(1)"; }, 100);
 
-  exerciseEl.innerHTML = `Start on: <br><strong>${NOTES[currentNoteIndex]}${octave}</strong><br>Sing a <strong>${currentInterval.name}</strong> ${dirIcon}`;
+  // NEW HTML STRUCTURE FOR BETTER RESPONSIVENESS
+  exerciseEl.innerHTML = `
+    <div class="ex-line">
+      <span class="ex-label">Start on:</span>
+      <span class="ex-note">${NOTES[currentNoteIndex]}${octave}</span>
+    </div>
+    <div class="ex-line">
+      <span class="ex-label">Sing a:</span>
+      <span class="ex-interval">${currentInterval.name}</span>
+      <span class="ex-dir">${dirIcon}</span>
+    </div>
+  `;
 
   const fb = document.getElementById("feedback");
   fb.className = "feedback"; 
   void fb.offsetWidth; 
   fb.textContent = "";
 
-  playPianoTone(freq);
+  playPianoTone(currentFreq);
+}
+
+// NEW FUNCTION: REPEAT
+function repeatTone(){
+  if(currentFreq) {
+    playPianoTone(currentFreq);
+  }
 }
 
 function tellMe(){
   if(currentNoteIndex===null) return;
-  const octave=parseInt(document.getElementById("octave").value);
-  const baseFreq=noteToFrequency(currentNoteIndex,octave);
   const semitoneChange=direction==="above"?currentInterval.semitones:-currentInterval.semitones;
-  const targetFreq=baseFreq*Math.pow(2,semitoneChange/12);
-  playPianoTone(baseFreq);
+  const targetFreq=currentFreq*Math.pow(2,semitoneChange/12);
+  playPianoTone(currentFreq);
   setTimeout(()=>playPianoTone(targetFreq),1200);
 }
 
